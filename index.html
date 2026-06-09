@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WC 2026 Pool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="theme-color" content="#0a0e1a" />
+</head>
+<body>
+
+<!-- ── SETUP SCREEN ───────────────────────────────────────────── -->
+<div id="setup-screen" class="setup-screen hidden">
+  <div class="setup-box">
+    <div class="setup-logo">⚽</div>
+    <h1>WC 2026 Pool</h1>
+    <p>Live results sync automatically from <strong>football-data.org</strong> — free, no account needed to play. You only need an API key to <em>administer</em> the pool.</p>
+    <div class="setup-section">
+      <label class="setup-label">Your admin password</label>
+      <input type="password" id="setup-admin-pw" placeholder="Set a password for the admin tab" />
+      <p class="hint">This locks the Admin tab so only you can enter results.</p>
+    </div>
+    <div class="setup-section">
+      <label class="setup-label">football-data.org API key</label>
+      <input type="text" id="setup-api-key" placeholder="Paste your free API token" />
+      <p class="hint">Get a free key at <a href="https://www.football-data.org/client/register" target="_blank">football-data.org</a> — takes 30 seconds. The World Cup is on the free tier.</p>
+    </div>
+    <button class="btn-cta" onclick="completeSetup()">Start the pool →</button>
+  </div>
+</div>
+
+<!-- ── APP SHELL ──────────────────────────────────────────────── -->
+<div id="app" class="hidden">
+
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-trophy">⚽</span>
+        <div>
+          <div class="header-title">WC 2026 Pool</div>
+          <div class="header-sub" id="header-phase-label">Group stage</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="sync-info" id="sync-info">—</div>
+        <button class="btn-sync" id="sync-btn" onclick="syncAll(this)">
+          <span class="sync-icon">↻</span> Sync
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="app-nav">
+    <button class="nav-btn active" data-page="leaderboard" onclick="showPage('leaderboard')">
+      <span class="nav-icon">🏆</span><span class="nav-label">Standings</span>
+    </button>
+    <button class="nav-btn" data-page="picks" onclick="showPage('picks')">
+      <span class="nav-icon">📋</span><span class="nav-label">My Picks</span>
+    </button>
+    <button class="nav-btn" data-page="bracket" onclick="showPage('bracket')">
+      <span class="nav-icon">🗂</span><span class="nav-label">Bracket</span>
+    </button>
+    <button class="nav-btn" data-page="groups" onclick="showPage('groups')">
+      <span class="nav-icon">🌍</span><span class="nav-label">Groups</span>
+    </button>
+    <button class="nav-btn admin-nav-btn" data-page="admin" onclick="requireAdmin('admin')">
+      <span class="nav-icon">⚙️</span><span class="nav-label">Admin</span>
+    </button>
+  </nav>
+
+  <main class="app-main">
+
+    <!-- LEADERBOARD PAGE -->
+    <div id="page-leaderboard" class="page active">
+      <div id="lb-content"></div>
+    </div>
+
+    <!-- PICKS PAGE -->
+    <div id="page-picks" class="page">
+      <div class="picks-header">
+        <div class="page-title">Make your picks</div>
+        <select id="picks-player-sel" onchange="renderPicksForPlayer()">
+          <option value="">— select your name —</option>
+        </select>
+      </div>
+      <div id="picks-content"></div>
+    </div>
+
+    <!-- BRACKET PAGE -->
+    <div id="page-bracket" class="page">
+      <div class="page-title" style="padding: 20px 16px 0;">Bracket</div>
+      <div id="bracket-content"></div>
+    </div>
+
+    <!-- GROUPS PAGE -->
+    <div id="page-groups" class="page">
+      <div class="page-title" style="padding: 20px 16px 0;">All 48 teams</div>
+      <div id="groups-ref" class="groups-ref-grid"></div>
+    </div>
+
+    <!-- ADMIN PAGE -->
+    <div id="page-admin" class="page">
+      <div id="admin-content"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── ADMIN PASSWORD MODAL ───────────────────────────────────── -->
+<div id="admin-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-title">Admin access</div>
+    <input type="password" id="admin-pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkAdminPw()" />
+    <div id="admin-pw-error" class="pw-error hidden">Incorrect password</div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="checkAdminPw()">Enter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────────────── -->
+<div id="toast" class="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/api.js"></script>
+<script src="js/picks.js"></script>
+<script src="js/leaderboard.js"></script>
+<script src="js/bracket.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
