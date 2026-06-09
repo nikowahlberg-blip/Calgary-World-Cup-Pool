@@ -220,12 +220,13 @@ function updatePhaseUI() {
 // ── INIT ──────────────────────────────────────────────────────────
 (function init() {
   const storedKey = localStorage.getItem("wc26apikey");
-  const storedPw  = localStorage.getItem("wc26adminpw");
+  const myName    = localStorage.getItem("wc26myname");
 
-  if (storedKey && storedPw) {
-    setApiKey(storedKey);
+  if (myName) {
+    if (storedKey) setApiKey(storedKey);
     document.getElementById("setup-screen").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
+    showPage("picks");
   } else {
     document.getElementById("setup-screen").classList.remove("hidden");
     document.getElementById("app").classList.add("hidden");
@@ -236,11 +237,6 @@ function updatePhaseUI() {
   renderLeaderboardPage();
   renderGroupsRef();
 
-  // Auto-sync once on load (non-blocking)
-  if (storedKey) {
-    syncAll(null).catch(() => {});
-  }
-
-  // Refresh sync timestamp every minute
+  if (storedKey) syncAll(null).catch(() => {});
   setInterval(updateSyncInfo, 60_000);
 })();
