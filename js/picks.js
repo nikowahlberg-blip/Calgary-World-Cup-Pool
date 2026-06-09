@@ -30,6 +30,8 @@ function renderPicksForPlayer() {
 
   html += `<div class="picks-save-bar"><button class="btn-primary" onclick="saveAllPicks(${idx})">Save all picks</button></div>`;
   el.innerHTML = html;
+
+  if (S.phase === "group") initSortable();
 }
 
 function renderGoldenBootPick(idx, p) {
