@@ -405,11 +405,11 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 .bracket-team .pick-status { font-size: 18px; flex-shrink: 0; margin-left: auto; }
 
 /* status colours */
-.bracket-team.correct { background: rgba(57,226,122,0.07); }
+.bracket-team.correct { background: rgba(16,185,129,0.1); }
 .bracket-team.correct .team-name { color: var(--phosphor); }
 .bracket-team.eliminated { opacity: 0.38; }
 .bracket-team.eliminated .team-name { text-decoration: line-through; }
-.bracket-team.picked-winner { background: rgba(91,163,245,0.07); }
+.bracket-team.picked-winner { background: rgba(59,130,246,0.1); }
 .bracket-team.pending {}
 
 /* bracket pending empty state */
