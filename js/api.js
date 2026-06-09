@@ -72,7 +72,7 @@ async function apiSyncMatches() {
 
 // Full sync — called by the Sync button and on page load
 async function syncAll(btnEl) {
-  if (!_apiKey) { showSetup(); return; }
+  if (!_apiKey) { toast("No API key set — open Admin setup first."); return; }
   if (btnEl) {
     btnEl.classList.add("syncing");
     btnEl.disabled = true;
