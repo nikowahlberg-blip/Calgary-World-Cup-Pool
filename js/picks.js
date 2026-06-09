@@ -215,14 +215,15 @@ function saveAllPicks(idx) {
   if (gb) p.goldenBoot = gb.value.trim();
 
   if (S.phase === "group") {
-    // Group picks
     if (!p.groupPicks) p.groupPicks = {};
     Object.keys(GROUPS).forEach(g => {
       p.groupPicks[g] = {};
-      [1,2,3,4].forEach(pos => {
-        const el = document.getElementById(`gp-${idx}-${g}-${pos}`);
-        if (el) p.groupPicks[g][pos] = el.value;
-      });
+      const list = document.getElementById(`sort-${idx}-${g}`);
+      if (list) {
+        [...list.querySelectorAll('.sort-item')].forEach((item, i) => {
+          p.groupPicks[g][i + 1] = item.dataset.team;
+        });
+      }
     });
   } else {
     // Bracket picks are saved live via onBracketPickChange
