@@ -2,26 +2,26 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Palette: deep navy pitch + phosphor green accent + amber highlights */
-  --pitch:    #0a0e1a;
-  --pitch2:   #111827;
-  --pitch3:   #1a2235;
-  --pitch4:   #243047;
-  --line:     rgba(255,255,255,0.07);
-  --line2:    rgba(255,255,255,0.13);
+  /* Palette: clean white + vibrant emerald + warm amber */
+  --pitch:    #f4f7f6;
+  --pitch2:   #ffffff;
+  --pitch3:   #eef2f0;
+  --pitch4:   #e4ebe7;
+  --line:     rgba(0,0,0,0.08);
+  --line2:    rgba(0,0,0,0.13);
 
-  --phosphor: #39e27a;       /* live green — correct picks, wins */
-  --phosphor-dim: #1a6637;   /* muted green bg */
-  --amber:    #f5a623;       /* highlights, warnings */
-  --amber-dim:#3d2a08;
-  --crimson:  #e84040;       /* eliminated / bust */
-  --crimson-dim:#3d1010;
-  --sky:      #5ba3f5;       /* info, links */
-  --sky-dim:  #0d2a4a;
+  --phosphor: #10b981;       /* emerald green — correct picks, wins */
+  --phosphor-dim: #d1fae5;   /* muted green bg */
+  --amber:    #f59e0b;       /* highlights, warnings */
+  --amber-dim:#fef3c7;
+  --crimson:  #ef4444;       /* eliminated / bust */
+  --crimson-dim:#fee2e2;
+  --sky:      #3b82f6;       /* info, links */
+  --sky-dim:  #dbeafe;
 
-  --text:     #f0f0ec;
-  --text2:    #9ba3b5;
-  --text3:    #5c6478;
+  --text:     #0f172a;
+  --text2:    #475569;
+  --text3:    #94a3b8;
 
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body:    'Inter', sans-serif;
