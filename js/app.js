@@ -67,13 +67,9 @@ function toggleAdminSetup() {
 }
 
 function saveAdminSetup() {
-  const pw  = document.getElementById("setup-admin-pw").value.trim();
-  const key = document.getElementById("setup-api-key").value.trim();
-  if (!pw)  { alert("Please set an admin password."); return; }
-  if (!key) { alert("Please enter your football-data.org API key."); return; }
+  const pw = document.getElementById("setup-admin-pw").value.trim();
+  if (!pw) { alert("Please set an admin password."); return; }
   localStorage.setItem("wc26adminpw", pw);
-  localStorage.setItem("wc26apikey",  key);
-  setApiKey(key);
   document.getElementById("admin-setup-fields").classList.add("hidden");
   toast("Admin settings saved!");
 }
