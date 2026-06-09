@@ -71,6 +71,7 @@ const DEFAULT_STATE = () => ({
   players:          [],   // [{name, groupPicks:{}, bracketPicks:{}, goldenBoot:""}]
   phase:            "group",  // "group" | "bracket"
   groupResults:     {},   // {A:{1:"Brazil",...}, ...}
+  groupStandings:   {},   // {A:[{team,position,playedGames,goalsFor,goalsAgainst,goalDifference,points},...], ...}
   bracketTeams:     [],   // 32 qualified teams
   koResults:        {},   // {r32:[{t1,t2,winner},...], ...}
   goldenBootResult: "",
