@@ -77,7 +77,8 @@ function saveAdminSetup() {
 // ── PAGE ROUTING ──────────────────────────────────────────────────
 let _currentPage = "leaderboard";
 function showPage(name) {
-  if (_currentPage === "live" && name !== "live") stopLiveRefresh();
+  if (_currentPage === "live"  && name !== "live")  stopLiveRefresh();
+  if (_currentPage === "stats" && name !== "stats") stopStatsRefresh();
   _currentPage = name;
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.page === name));
@@ -88,6 +89,7 @@ function showPage(name) {
   if (name === "bracket")     renderBracketPage();
   if (name === "groups")      renderGroupsRef();
   if (name === "live")        renderLivePage();
+  if (name === "stats")       renderStatsPage();
   if (name === "admin")       renderAdmin();
 }
 
