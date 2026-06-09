@@ -11,14 +11,6 @@ async function renderLivePage() {
   if (!el) return;
   stopLiveRefresh();
 
-  if (!getApiKey()) {
-    el.innerHTML = `<div class="empty-state">
-      <div class="empty-icon">📡</div>
-      Live data requires an API key.<br>Ask the admin to set one up in Admin setup.
-    </div>`;
-    return;
-  }
-
   // Show skeleton only on first load
   if (!el.dataset.loaded) {
     el.innerHTML = `<div class="live-loading">
