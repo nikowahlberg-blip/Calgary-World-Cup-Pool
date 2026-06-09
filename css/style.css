@@ -570,6 +570,56 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   .group-picks-grid, .groups-ref-grid, .admin-groups-grid, .ko-admin-grid, .picks-grid { grid-template-columns: 1fr; }
 }
 
+/* ── ADMIN SETUP TOGGLE ───────────────────────────────────────── */
+.admin-setup-toggle {
+  text-align: center;
+  margin-top: 18px;
+}
+.admin-setup-toggle button {
+  background: none; border: none;
+  color: var(--text3); font-size: 12px; cursor: pointer;
+  padding: 4px 10px; border-radius: var(--radius-sm);
+  transition: color 0.12s;
+}
+.admin-setup-toggle button:hover { color: var(--text2); }
+#admin-setup-fields {
+  margin-top: 16px; padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+/* ── SORTABLE DRAG LISTS ──────────────────────────────────────── */
+.sortable-list {
+  display: flex; flex-direction: column; gap: 5px;
+}
+.sort-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  background: var(--pitch3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  user-select: none;
+  touch-action: none;
+  transition: box-shadow 0.1s;
+}
+.sort-item.dragging {
+  opacity: 0.4;
+}
+.sort-placeholder {
+  border: 2px dashed var(--phosphor);
+  border-radius: var(--radius-sm);
+  background: var(--phosphor-dim);
+}
+.drag-handle {
+  color: var(--text3); cursor: grab;
+  font-size: 15px; line-height: 1; flex-shrink: 0;
+  padding: 2px 1px;
+}
+.drag-handle:active { cursor: grabbing; }
+.sort-pos  { font-size: 14px; width: 22px; text-align: center; flex-shrink: 0; }
+.sort-flag { font-size: 17px; flex-shrink: 0; }
+.sort-name { flex: 1; font-size: 12px; font-weight: 500; }
+.sort-pts  { font-size: 10px; color: var(--text3); font-weight: 600; flex-shrink: 0; }
+
 /* ── MISC UTILS ───────────────────────────────────────────────── */
 hr.sep { border: none; border-top: 1px solid var(--line); margin: 8px 16px; }
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text3); font-size: 14px; line-height: 1.6; }
