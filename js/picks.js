@@ -46,26 +46,113 @@ function renderGoldenBootPick(idx, p) {
 }
 
 function renderGroupPicksForms(idx, p) {
+  const medals   = ["🥇","🥈","🥉","4️⃣"];
+  const ptLabels = ["3pts","2pts","1pt","0pts"];
+
   let html = `<div style="padding: 0 16px 6px;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;">
       <div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:0.02em;">Group picks</div>
-      <div class="pts-pill">1st=3 · 2nd=2 · 3rd=1</div>
+      <div class="pts-pill">Drag to rank · 1st=3pts</div>
     </div>
   </div>
   <div class="group-picks-grid">`;
+
   Object.entries(GROUPS).forEach(([g, teams]) => {
     const gp = p.groupPicks[g] || {};
-    html += `<div class="group-pick-card"><div class="card-title">Group ${g}</div>`;
-    [[1,"🥇"],[2,"🥈"],[3,"🥉"],[4,"4️⃣"]].forEach(([pos, icon]) => {
-      html += `<div class="place-row">
-        <span class="place-icon">${icon}</span>
-        <select id="gp-${idx}-${g}-${pos}">${teamOpts(teams, gp[pos] || "")}</select>
+    const saved     = [1,2,3,4].map(pos => gp[pos]).filter(Boolean);
+    const remaining = teams.filter(t => !saved.includes(t));
+    const order     = [...saved, ...remaining];
+
+    html += `<div class="group-pick-card"><div class="card-title">Group ${g}</div>
+      <div class="sortable-list" id="sort-${idx}-${g}">`;
+    order.forEach((team, i) => {
+      html += `<div class="sort-item" data-team="${team}">
+        <span class="drag-handle">⠿</span>
+        <span class="sort-pos">${medals[i]}</span>
+        <span class="sort-flag">${flag(team)}</span>
+        <span class="sort-name">${team}</span>
+        <span class="sort-pts">${ptLabels[i]}</span>
       </div>`;
     });
-    html += `</div>`;
+    html += `</div></div>`;
   });
+
   html += `</div>`;
   return html;
+}
+
+// ── DRAG-AND-DROP SORTABLE ────────────────────────────────────────
+let _drag = { item: null, list: null, placeholder: null, offsetY: 0 };
+
+function initSortable() {
+  document.querySelectorAll('.sort-item').forEach(item => {
+    item.addEventListener('pointerdown', _dragStart, { passive: false });
+  });
+}
+
+function _dragStart(e) {
+  if (!e.target.closest('.drag-handle')) return;
+  e.preventDefault();
+
+  const item = e.currentTarget;
+  const list = item.closest('.sortable-list');
+  const rect = item.getBoundingClientRect();
+
+  const ph = document.createElement('div');
+  ph.className = 'sort-placeholder';
+  ph.style.height = rect.height + 'px';
+  list.insertBefore(ph, item);
+
+  item.style.cssText = `position:fixed;top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;z-index:999;margin:0;`;
+  item.classList.add('dragging');
+
+  _drag = { item, list, placeholder: ph, offsetY: e.clientY - rect.top };
+
+  document.addEventListener('pointermove', _dragMove, { passive: false });
+  document.addEventListener('pointerup',   _dragEnd);
+  document.addEventListener('pointercancel', _dragEnd);
+}
+
+function _dragMove(e) {
+  if (!_drag.item) return;
+  e.preventDefault();
+  _drag.item.style.top = (e.clientY - _drag.offsetY) + 'px';
+
+  const items = [..._drag.list.querySelectorAll('.sort-item:not(.dragging)')];
+  let insertBefore = null;
+  for (const other of items) {
+    const box = other.getBoundingClientRect();
+    if (e.clientY < box.top + box.height / 2) { insertBefore = other; break; }
+  }
+  if (insertBefore) _drag.list.insertBefore(_drag.placeholder, insertBefore);
+  else              _drag.list.appendChild(_drag.placeholder);
+}
+
+function _dragEnd() {
+  if (!_drag.item) return;
+  const { item, list, placeholder } = _drag;
+
+  list.insertBefore(item, placeholder);
+  placeholder.remove();
+  item.style.cssText = '';
+  item.classList.remove('dragging');
+  _updateSortPositions(list);
+
+  document.removeEventListener('pointermove', _dragMove);
+  document.removeEventListener('pointerup',   _dragEnd);
+  document.removeEventListener('pointercancel', _dragEnd);
+  _drag = { item: null, list: null, placeholder: null, offsetY: 0 };
+}
+
+function _updateSortPositions(list) {
+  const medals   = ["🥇","🥈","🥉","4️⃣"];
+  const ptLabels = ["3pts","2pts","1pt","0pts"];
+  [...list.querySelectorAll('.sort-item')].forEach((item, i) => {
+    const posEl = item.querySelector('.sort-pos');
+    const ptsEl = item.querySelector('.sort-pts');
+    if (posEl) posEl.textContent = medals[i];
+    if (ptsEl) ptsEl.textContent = ptLabels[i];
+  });
 }
 
 function renderBracketPicksForms(idx, p) {
