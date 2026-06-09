@@ -148,7 +148,7 @@ function _dragEnd() {
 
 function _updateSortPositions(list) {
   const medals   = ["🥇","🥈","🥉","4️⃣"];
-  const ptLabels = ["3pts","2pts","1pt","0pts"];
+  const ptLabels = ["2pts","2pts","2pts","2pts"];
   [...list.querySelectorAll('.sort-item')].forEach((item, i) => {
     const posEl = item.querySelector('.sort-pos');
     const ptsEl = item.querySelector('.sort-pts');
