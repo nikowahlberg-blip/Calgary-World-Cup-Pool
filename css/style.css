@@ -600,6 +600,10 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 .sort-item.dragging {
   opacity: 0.4;
 }
+.sort-item--readonly {
+  opacity: 0.75;
+}
+.sort-item--readonly .sort-pos { padding-left: 1px; }
 .sort-placeholder {
   border: 2px dashed var(--phosphor);
   border-radius: var(--radius-sm);
