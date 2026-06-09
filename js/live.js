@@ -158,12 +158,11 @@ function renderStandingsSection(standings) {
       <div class="live-group-label">Group ${letter}</div>
       <div class="live-table-header">
         <span class="lt-team-col"></span>
-        <span class="lt-stat">P</span>
-        <span class="lt-stat">W</span>
-        <span class="lt-stat">D</span>
-        <span class="lt-stat">L</span>
+        <span class="lt-stat">GP</span>
+        <span class="lt-stat">GF</span>
+        <span class="lt-stat">GA</span>
         <span class="lt-stat">GD</span>
-        <span class="lt-pts">Pts</span>
+        <span class="lt-pts">P</span>
       </div>`;
 
     (group.table || []).forEach((row, i) => {
@@ -177,9 +176,8 @@ function renderStandingsSection(standings) {
           <span class="lt-name">${team}</span>
         </span>
         <span class="lt-stat">${row.playedGames}</span>
-        <span class="lt-stat">${row.won}</span>
-        <span class="lt-stat">${row.draw}</span>
-        <span class="lt-stat">${row.lost}</span>
+        <span class="lt-stat">${row.goalsFor}</span>
+        <span class="lt-stat">${row.goalsAgainst}</span>
         <span class="lt-stat lt-gd">${gd}</span>
         <span class="lt-pts lt-pts-val">${row.points}</span>
       </div>`;
