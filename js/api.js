@@ -1,15 +1,12 @@
 // ── API MODULE ───────────────────────────────────────────────────
-const API_BASE = "https://api.football-data.org/v4";
+// Requests go through a Cloudflare Worker proxy that holds the
+// football-data.org API key server-side and adds CORS headers
+// (football-data.org itself does not allow browser requests).
+const API_BASE = "https://calgary-wc-pool-proxy.niko-wahlberg.workers.dev";
 const WC = "WC";
 
-let _apiKey = "";
-const getApiKey = () => _apiKey;
-const setApiKey = k => { _apiKey = k; };
-
 async function apiFetch(path) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "X-Auth-Token": _apiKey }
-  });
+  const res = await fetch(`${API_BASE}${path}`);
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new Error(`API ${res.status}: ${body.slice(0,120)}`);
@@ -72,7 +69,6 @@ async function apiSyncMatches() {
 
 // Full sync — called by the Sync button and on page load
 async function syncAll(btnEl) {
-  if (!_apiKey) { toast("No API key set — open Admin setup first."); return; }
   if (btnEl) {
     btnEl.classList.add("syncing");
     btnEl.disabled = true;
