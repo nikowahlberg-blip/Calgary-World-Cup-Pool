@@ -17,18 +17,28 @@
   <div class="setup-box">
     <div class="setup-logo">⚽</div>
     <h1>WC 2026 Pool</h1>
-    <p>Live results sync automatically from <strong>football-data.org</strong> — free, no account needed to play. You only need an API key to <em>administer</em> the pool.</p>
+    <p>Calgary's World Cup prediction pool. Enter your name to start making picks!</p>
     <div class="setup-section">
-      <label class="setup-label">Your admin password</label>
-      <input type="password" id="setup-admin-pw" placeholder="Set a password for the admin tab" />
-      <p class="hint">This locks the Admin tab so only you can enter results.</p>
+      <label class="setup-label">Your name</label>
+      <input type="text" id="setup-player-name" placeholder="e.g. Niko" onkeydown="if(event.key==='Enter')joinPool()" />
     </div>
-    <div class="setup-section">
-      <label class="setup-label">football-data.org API key</label>
-      <input type="text" id="setup-api-key" placeholder="Paste your free API token" />
-      <p class="hint">Get a free key at <a href="https://www.football-data.org/client/register" target="_blank">football-data.org</a> — takes 30 seconds. The World Cup is on the free tier.</p>
+    <button class="btn-cta" onclick="joinPool()">Join the pool →</button>
+    <div class="admin-setup-toggle">
+      <button onclick="toggleAdminSetup()">⚙️ Admin setup</button>
     </div>
-    <button class="btn-cta" onclick="completeSetup()">Start the pool →</button>
+    <div id="admin-setup-fields" class="hidden">
+      <div class="setup-section">
+        <label class="setup-label">Admin password</label>
+        <input type="password" id="setup-admin-pw" placeholder="Set a password for the Admin tab" />
+        <p class="hint">Locks the Admin tab so only you can manage the pool.</p>
+      </div>
+      <div class="setup-section">
+        <label class="setup-label">football-data.org API key</label>
+        <input type="text" id="setup-api-key" placeholder="Paste your free API token" />
+        <p class="hint">Get a free key at <a href="https://www.football-data.org/client/register" target="_blank">football-data.org</a> — takes 30 seconds.</p>
+      </div>
+      <button class="btn-secondary" style="width:100%;padding:12px;margin-top:4px;" onclick="saveAdminSetup()">Save admin settings</button>
+    </div>
   </div>
 </div>
 
