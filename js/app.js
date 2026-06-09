@@ -42,11 +42,31 @@ function closeModal() {
 }
 
 // ── SETUP ─────────────────────────────────────────────────────────
-function showSetup() {
-  document.getElementById("setup-screen").classList.remove("hidden");
-  document.getElementById("app").classList.add("hidden");
+function joinPool() {
+  const nameEl = document.getElementById("setup-player-name");
+  const name   = nameEl ? nameEl.value.trim() : "";
+  if (!name) { if (nameEl) nameEl.focus(); return; }
+
+  let idx = S.players.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
+  if (idx === -1) {
+    S.players.push({ name, groupPicks: {}, bracketPicks: {}, goldenBoot: "" });
+    idx = S.players.length - 1;
+    save();
+  }
+  localStorage.setItem("wc26myname", name);
+  localStorage.setItem("wc26myidx",  String(idx));
+
+  document.getElementById("setup-screen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  showPage("picks");
+  toast("Welcome, " + name + "! Rank the groups below.");
 }
-function completeSetup() {
+
+function toggleAdminSetup() {
+  document.getElementById("admin-setup-fields").classList.toggle("hidden");
+}
+
+function saveAdminSetup() {
   const pw  = document.getElementById("setup-admin-pw").value.trim();
   const key = document.getElementById("setup-api-key").value.trim();
   if (!pw)  { alert("Please set an admin password."); return; }
@@ -54,9 +74,8 @@ function completeSetup() {
   localStorage.setItem("wc26adminpw", pw);
   localStorage.setItem("wc26apikey",  key);
   setApiKey(key);
-  document.getElementById("setup-screen").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  toast("Welcome! Your pool is ready.");
+  document.getElementById("admin-setup-fields").classList.add("hidden");
+  toast("Admin settings saved!");
 }
 
 // ── PAGE ROUTING ──────────────────────────────────────────────────
