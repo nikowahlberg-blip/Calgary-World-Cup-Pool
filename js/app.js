@@ -81,6 +81,7 @@ function saveAdminSetup() {
 // ── PAGE ROUTING ──────────────────────────────────────────────────
 let _currentPage = "leaderboard";
 function showPage(name) {
+  if (_currentPage === "live" && name !== "live") stopLiveRefresh();
   _currentPage = name;
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.page === name));
