@@ -49,7 +49,7 @@ function renderGoldenBootPick(idx, p) {
 
 function renderGroupPicksForms(idx, p) {
   const medals   = ["🥇","🥈","🥉","4️⃣"];
-  const ptLabels = ["3pts","2pts","1pt","0pts"];
+  const ptLabels = ["2pts","2pts","2pts","2pts"];
 
   let html = `<div style="padding: 0 16px 6px;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;">
