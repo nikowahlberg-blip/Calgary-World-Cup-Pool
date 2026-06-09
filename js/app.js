@@ -130,9 +130,8 @@ function renderLeaderboardPage() {
   html += `<div class="lb-list">`;
   ranked.forEach((p, i) => {
     const medals = ["🥇","🥈","🥉"];
-    const gap    = i > 0 ? ranked[0].pts - p.pts : 0;
-    const maxGap = i > 0 ? ranked[0].maxPossible - p.pts : null;
-    const stillAlive = p.maxPossible >= ranked[0].pts; // can they still win?
+    const gap        = i > 0 ? ranked[0].pts - p.pts : 0;
+    const stillAlive = p.maxPossible >= ranked[0].pts;
 
     html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""}">
       <div class="lb-rank">${medals[i] || (i + 1)}</div>
