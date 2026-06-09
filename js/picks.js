@@ -172,7 +172,7 @@ function _updateSortPositions(list) {
   });
 }
 
-function renderBracketPicksForms(idx, p) {
+function renderBracketPicksForms(idx, p, isOwner = true) {
   let html = "";
   KO_ROUNDS.forEach((round, ri) => {
     const pool   = getBracketPool(idx, ri);
@@ -189,11 +189,17 @@ function renderBracketPicksForms(idx, p) {
       const cur = picks[i] || "";
       // tint the select if the team is eliminated
       const isElim = cur && eliminated.has(cur);
-      html += `<select id="bk-${idx}-${round.id}-${i}"
-        style="${isElim ? "border-color:var(--crimson);opacity:0.6;" : ""}"
-        onchange="onBracketPickChange(${idx},'${round.id}',${i},this.value)">
-        ${teamOpts(pool, cur)}
-      </select>`;
+      if (isOwner) {
+        html += `<select id="bk-${idx}-${round.id}-${i}"
+          style="${isElim ? "border-color:var(--crimson);opacity:0.6;" : ""}"
+          onchange="onBracketPickChange(${idx},'${round.id}',${i},this.value)">
+          ${teamOpts(pool, cur)}
+        </select>`;
+      } else {
+        html += `<select disabled style="${isElim ? "border-color:var(--crimson);opacity:0.6;" : ""}">
+          ${teamOpts(pool, cur)}
+        </select>`;
+      }
     }
     html += `</div></div><hr class="sep">`;
   });
