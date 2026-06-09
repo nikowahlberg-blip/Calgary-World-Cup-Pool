@@ -114,8 +114,8 @@ async function apiGetLiveMatches() {
   return apiFetch(`/competitions/${WC}/matches?dateFrom=${from}&dateTo=${to}`);
 }
 
-async function apiGetScorers() {
-  return apiFetch(`/competitions/${WC}/scorers?limit=10`);
+async function apiGetScorers(limit = 10) {
+  return apiFetch(`/competitions/${WC}/scorers?limit=${limit}`);
 }
 
 async function apiGetLiveStandings() {
