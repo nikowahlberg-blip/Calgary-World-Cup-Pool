@@ -216,11 +216,9 @@ function updatePhaseUI() {
 
 // ── INIT ──────────────────────────────────────────────────────────
 (function init() {
-  const storedKey = localStorage.getItem("wc26apikey");
-  const myName    = localStorage.getItem("wc26myname");
+  const myName = localStorage.getItem("wc26myname");
 
   if (myName) {
-    if (storedKey) setApiKey(storedKey);
     document.getElementById("setup-screen").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     showPage("picks");
@@ -234,6 +232,6 @@ function updatePhaseUI() {
   renderLeaderboardPage();
   renderGroupsRef();
 
-  if (storedKey) syncAll(null).catch(() => {});
+  syncAll(null).catch(() => {});
   setInterval(updateSyncInfo, 60_000);
 })();
