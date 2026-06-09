@@ -260,7 +260,8 @@ function renderPlayers() {
 function refreshPicksPlayerSelect() {
   const sel = document.getElementById("picks-player-sel");
   if (!sel) return;
-  const cur = sel.value;
+  const myIdx = localStorage.getItem("wc26myidx");
+  const cur   = myIdx !== null && S.players[parseInt(myIdx)] ? myIdx : sel.value;
   sel.innerHTML = `<option value="">— select your name —</option>` +
     S.players.map((p, i) => `<option value="${i}">${p.name}</option>`).join("");
   if (cur !== "") sel.value = cur;
