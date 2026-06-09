@@ -12,49 +12,64 @@ function renderPicksForPlayer() {
   if (isNaN(idx)) { el.innerHTML = ""; return; }
   const p = S.players[idx];
 
+  const myIdx   = localStorage.getItem("wc26myidx");
+  const isOwner = myIdx !== null && parseInt(myIdx) === idx;
+
   let html = "";
 
-  if (S.phase === "group") {
+  if (!isOwner) {
     html += `<div style="padding:0 16px 8px;">
-      <div class="info amber">📋 <strong>Phase 1 — Group stage.</strong> Predict how each group will finish. Bracket picks open after the group stage ends.</div>
+      <div class="info">👀 <strong>Viewing ${p.name}'s picks.</strong> You can only edit your own picks.</div>
     </div>`;
-    html += renderGoldenBootPick(idx, p);
-    html += renderGroupPicksForms(idx, p);
-  } else {
-    html += `<div style="padding:0 16px 8px;">
-      <div class="info green">✅ <strong>The bracket is set.</strong> Pick your teams for every knockout round — from Round of 32 all the way to the champion. Each round's options update based on your previous picks.</div>
-    </div>`;
-    html += renderGoldenBootPick(idx, p);
-    html += renderBracketPicksForms(idx, p);
   }
 
-  html += `<div class="picks-save-bar"><button class="btn-primary" onclick="saveAllPicks(${idx})">Save all picks</button></div>`;
+  if (S.phase === "group") {
+    if (isOwner) {
+      html += `<div style="padding:0 16px 8px;">
+        <div class="info amber">📋 <strong>Phase 1 — Group stage.</strong> Predict how each group will finish. Bracket picks open after the group stage ends.</div>
+      </div>`;
+    }
+    html += renderGoldenBootPick(idx, p, isOwner);
+    html += renderGroupPicksForms(idx, p, isOwner);
+  } else {
+    if (isOwner) {
+      html += `<div style="padding:0 16px 8px;">
+        <div class="info green">✅ <strong>The bracket is set.</strong> Pick your teams for every knockout round — from Round of 32 all the way to the champion. Each round's options update based on your previous picks.</div>
+      </div>`;
+    }
+    html += renderGoldenBootPick(idx, p, isOwner);
+    html += renderBracketPicksForms(idx, p, isOwner);
+  }
+
+  if (isOwner) {
+    html += `<div class="picks-save-bar"><button class="btn-primary" onclick="saveAllPicks(${idx})">Save all picks</button></div>`;
+  }
   el.innerHTML = html;
 
-  if (S.phase === "group") initSortable();
+  if (S.phase === "group" && isOwner) initSortable();
 }
 
-function renderGoldenBootPick(idx, p) {
+function renderGoldenBootPick(idx, p, isOwner = true) {
   return `<div class="golden-boot-row">
     <div class="golden-boot-inner">
       <div class="golden-boot-icon">⚽</div>
       <div class="golden-boot-content">
         <div class="picks-pts">4 pts if correct</div>
         <label>Golden boot scorer</label>
-        <input type="text" id="gb-inp-${idx}" value="${p.goldenBoot || ""}" placeholder="Player name (e.g. Haaland)" />
+        <input type="text" id="gb-inp-${idx}" value="${p.goldenBoot || ""}" placeholder="Player name (e.g. Haaland)" ${isOwner ? "" : "disabled"} />
       </div>
     </div>
   </div><hr class="sep">`;
 }
 
-function renderGroupPicksForms(idx, p) {
+function renderGroupPicksForms(idx, p, isOwner = true) {
   const medals   = ["🥇","🥈","🥉","4️⃣"];
   const ptLabels = ["2pts","2pts","2pts","2pts"];
 
   let html = `<div style="padding: 0 16px 6px;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;">
       <div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:0.02em;">Group picks</div>
-      <div class="pts-pill">Drag to rank · 2pts each</div>
+      <div class="pts-pill">${isOwner ? "Drag to rank · 2pts each" : "2pts each"}</div>
     </div>
   </div>
   <div class="group-picks-grid">`;
@@ -66,10 +81,10 @@ function renderGroupPicksForms(idx, p) {
     const order     = [...saved, ...remaining];
 
     html += `<div class="group-pick-card"><div class="card-title">Group ${g}</div>
-      <div class="sortable-list" id="sort-${idx}-${g}">`;
+      <div class="sortable-list${isOwner ? "" : " sortable-list--readonly"}" id="sort-${idx}-${g}">`;
     order.forEach((team, i) => {
-      html += `<div class="sort-item" data-team="${team}">
-        <span class="drag-handle">⠿</span>
+      html += `<div class="sort-item${isOwner ? "" : " sort-item--readonly"}" data-team="${team}">
+        ${isOwner ? `<span class="drag-handle">⠿</span>` : ""}
         <span class="sort-pos">${medals[i]}</span>
         <span class="sort-flag">${flag(team)}</span>
         <span class="sort-name">${team}</span>
