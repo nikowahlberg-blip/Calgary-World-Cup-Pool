@@ -106,8 +106,8 @@ function matchCard(m, type) {
   const awayGoals = ft.away ?? reg.away ?? null;
   const hasScore  = homeGoals !== null && awayGoals !== null;
 
-  const kickoff = m.utcDate ? new Date(m.utcDate).toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" }) : "";
-  const kickoffDate = m.utcDate ? new Date(m.utcDate).toLocaleDateString([], { month:"short", day:"numeric" }) : "";
+  const kickoff = m.utcDate ? new Date(m.utcDate).toLocaleTimeString([], { hour:"numeric", minute:"2-digit" }) : "";
+  const kickoffDate = m.utcDate ? new Date(m.utcDate).toLocaleDateString([], { weekday:"short", month:"short", day:"numeric" }) : "";
   const minute  = m.minute ? `${m.minute}'` : "";
   const group   = (m.group || "").replace("GROUP_", "Group ");
 
@@ -115,7 +115,7 @@ function matchCard(m, type) {
     ? `<span class="match-status live-badge">${minute || "Live"}</span>`
     : type === "finished"
     ? `<span class="match-status fin-badge">FT</span>`
-    : `<span class="match-status sch-badge">${kickoffDate} ${kickoff}</span>`;
+    : `<span class="match-status sch-badge">${kickoffDate} · ${kickoff}</span>`;
 
   return `<div class="match-card match-card--${type}">
     <div class="match-meta">${group}${group && statusBadge ? " · " : ""}${statusBadge}</div>
