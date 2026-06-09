@@ -14,20 +14,33 @@ async function apiFetch(path) {
   return res.json();
 }
 
-// Pull group standings and write into S.groupResults
+// Pull group standings and write into S.groupResults / S.groupStandings
 async function apiSyncStandings() {
   const data = await apiFetch(`/competitions/${WC}/standings`);
   const updated = {};
+  const standings = {};
   (data.standings || []).forEach(group => {
     const letter = (group.group || "").replace("GROUP_","");
     if (!letter || !GROUPS[letter]) return;
     updated[letter] = {};
-    (group.table || []).forEach((row, i) => {
-      updated[letter][i + 1] = normalizeTeam(row.team?.name || "");
+    standings[letter] = (group.table || []).map((row, i) => {
+      const team = normalizeTeam(row.team?.name || "");
+      updated[letter][i + 1] = team;
+      return {
+        team,
+        position:       row.position,
+        playedGames:    row.playedGames,
+        goalsFor:       row.goalsFor,
+        goalsAgainst:   row.goalsAgainst,
+        goalDifference: row.goalDifference,
+        points:         row.points,
+      };
     });
   });
   // merge — don't overwrite manual entries that API didn't return
   Object.assign(S.groupResults, updated);
+  if (!S.groupStandings) S.groupStandings = {};
+  Object.assign(S.groupStandings, standings);
 }
 
 // Pull all KO match results and write into S.koResults
