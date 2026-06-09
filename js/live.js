@@ -70,8 +70,11 @@ function renderMatchSection(matches) {
 
   const live     = matches.filter(m => ["IN_PLAY","PAUSED","LIVE"].includes(m.status));
   const upcoming = matches.filter(m => ["SCHEDULED","TIMED"].includes(m.status))
-                           .sort((a,b) => new Date(a.utcDate) - new Date(b.utcDate));
-  const finished = matches.filter(m => m.status === "FINISHED");
+                           .sort((a,b) => new Date(a.utcDate) - new Date(b.utcDate))
+                           .slice(0, 15);
+  const finished = matches.filter(m => m.status === "FINISHED")
+                           .sort((a,b) => new Date(b.utcDate) - new Date(a.utcDate))
+                           .slice(0, 10);
 
   let html = `<div class="live-section">`;
 
@@ -81,12 +84,12 @@ function renderMatchSection(matches) {
   }
 
   if (upcoming.length) {
-    html += `<div class="live-section-title" style="margin-top:${live.length ? 16 : 0}px;">Upcoming</div>`;
+    html += `<div class="live-section-title" style="margin-top:${live.length ? 16 : 0}px;">Upcoming (next ${upcoming.length})</div>`;
     html += upcoming.map(m => matchCard(m, "upcoming")).join("");
   }
 
   if (finished.length) {
-    html += `<div class="live-section-title" style="margin-top:${(live.length || upcoming.length) ? 16 : 0}px;">Results</div>`;
+    html += `<div class="live-section-title" style="margin-top:${(live.length || upcoming.length) ? 16 : 0}px;">Recent Results</div>`;
     html += finished.map(m => matchCard(m, "finished")).join("");
   }
 
