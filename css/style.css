@@ -556,7 +556,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   opacity: 0; transition: opacity 0.2s;
   pointer-events: none; z-index: 999;
   white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 .toast.show { opacity: 1; }
 
