@@ -30,7 +30,7 @@ async function renderLivePage() {
     const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
     let html = `<div class="live-header">
-      <div class="live-header-title">Live Updates</div>
+      <div class="live-header-title">Games &amp; Scores</div>
       <div class="live-header-right">
         <span class="live-updated">Updated ${now}</span>
         <button class="btn-sync" onclick="renderLivePage()">
