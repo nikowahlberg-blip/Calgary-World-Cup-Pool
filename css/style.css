@@ -316,10 +316,6 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   padding: 12px;
 }
 .group-pick-card .card-title { margin-bottom: 10px; font-size: 12px; }
-.place-row { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
-.place-row:last-child { margin-bottom: 0; }
-.place-icon { font-size: 14px; width: 20px; flex-shrink: 0; }
-.place-row select { flex: 1; font-size: 12px; padding: 5px 28px 5px 8px; height: auto; }
 
 .round-picks-section { padding: 0 16px 8px; }
 .round-picks-header {
