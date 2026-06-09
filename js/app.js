@@ -186,6 +186,47 @@ function formatPicksPreview(p) {
 function renderGroupsRef() {
   const el = document.getElementById("groups-ref");
   if (!el) return;
+
+  const hasStandings = Object.keys(S.groupStandings || {}).length > 0;
+
+  if (hasStandings) {
+    el.className = "live-standings-grid";
+    el.innerHTML = Object.keys(GROUPS).map(g => {
+      const rows = S.groupStandings[g] || [];
+      if (!rows.length) return "";
+      return `<div class="live-group-card">
+        <div class="live-group-label">Group ${g}</div>
+        <div class="live-table-header">
+          <span class="lt-team-col"></span>
+          <span class="lt-stat">GP</span>
+          <span class="lt-stat">GF</span>
+          <span class="lt-stat">GA</span>
+          <span class="lt-stat">GD</span>
+          <span class="lt-pts">P</span>
+        </div>
+        ${rows.map((row, i) => {
+          const team = row.team;
+          const gd   = row.goalDifference >= 0 ? `+${row.goalDifference}` : String(row.goalDifference);
+          const through = i < 2 ? "lt-row--through" : "";
+          return `<div class="lt-row ${through}">
+            <span class="lt-team-col">
+              <span class="lt-pos">${row.position}</span>
+              <span class="lt-flag">${flag(team)}</span>
+              <span class="lt-name">${team}</span>
+            </span>
+            <span class="lt-stat">${row.playedGames}</span>
+            <span class="lt-stat">${row.goalsFor}</span>
+            <span class="lt-stat">${row.goalsAgainst}</span>
+            <span class="lt-stat lt-gd">${gd}</span>
+            <span class="lt-pts lt-pts-val">${row.points}</span>
+          </div>`;
+        }).join("")}
+      </div>`;
+    }).join("");
+    return;
+  }
+
+  el.className = "groups-ref-grid";
   el.innerHTML = Object.entries(GROUPS).map(([g, teams]) => {
     const res = S.groupResults[g] || {};
     const standings = res[1] ? teams.slice().sort((a,b) => {
