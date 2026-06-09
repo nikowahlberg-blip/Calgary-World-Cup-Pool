@@ -97,7 +97,7 @@ async function syncAll(btnEl) {
 // Live page API calls (not saved to pool state)
 async function apiGetLiveMatches() {
   const from = new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10);
-  const to   = new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10);
+  const to   = new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10);
   return apiFetch(`/competitions/${WC}/matches?dateFrom=${from}&dateTo=${to}`);
 }
 
