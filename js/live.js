@@ -69,7 +69,8 @@ function renderMatchSection(matches) {
   }
 
   const live     = matches.filter(m => ["IN_PLAY","PAUSED","LIVE"].includes(m.status));
-  const upcoming = matches.filter(m => m.status === "SCHEDULED");
+  const upcoming = matches.filter(m => ["SCHEDULED","TIMED"].includes(m.status))
+                           .sort((a,b) => new Date(a.utcDate) - new Date(b.utcDate));
   const finished = matches.filter(m => m.status === "FINISHED");
 
   let html = `<div class="live-section">`;
