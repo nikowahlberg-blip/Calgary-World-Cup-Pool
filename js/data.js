@@ -60,9 +60,9 @@ const KO_ROUNDS = [
 ];
 
 // ── SCORING ───────────────────────────────────────────────────────
-const GROUP_PTS     = { 1:3, 2:2, 3:1, 4:0 };
+const GROUP_PTS     = { 1:2, 2:2, 3:2, 4:2 };
 const GOLDEN_PTS    = 4;
-const MAX_GROUP_PTS = 12 * (3 + 2 + 1);  // 72
+const MAX_GROUP_PTS = 12 * (2 + 2 + 2 + 2);  // 96
 const MAX_KO_PTS    = KO_ROUNDS.reduce((a, r) => a + r.size * r.pts, 0); // 2*32+3*16+4*8+5*4+6*2+8*1 = 64+48+32+20+12+8 = 184
 const MAX_TOTAL_PTS = MAX_GROUP_PTS + GOLDEN_PTS + MAX_KO_PTS;
 
