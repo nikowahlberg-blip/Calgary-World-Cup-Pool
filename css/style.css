@@ -87,6 +87,38 @@ a:hover { text-decoration: underline; }
 }
 .btn-cta:hover { opacity: 0.88; }
 
+/* Setup player picker */
+.setup-player-list {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 4px;
+}
+.setup-player-btn {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 12px 14px;
+  background: var(--pitch3); border: 1px solid var(--line2);
+  border-radius: var(--radius); cursor: pointer;
+  font-family: var(--font-body); font-size: 15px; font-weight: 600; color: var(--text);
+  text-align: left;
+  transition: background 0.12s, border-color 0.12s;
+}
+.setup-player-btn:hover { background: var(--pitch4); border-color: var(--phosphor); }
+.setup-player-avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: var(--pitch4); border: 1px solid var(--line2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--text2);
+  font-family: var(--font-display); letter-spacing: 0.02em;
+}
+.setup-player-name { flex: 1; }
+
+/* "Not you?" header link */
+.btn-switch-user {
+  background: none; border: none; cursor: pointer;
+  color: var(--text3); font-size: 11px; text-decoration: underline;
+  padding: 4px 2px; flex-shrink: 0;
+}
+.btn-switch-user:hover { color: var(--text2); }
+
 /* ── HEADER ───────────────────────────────────────────────────── */
 .app-header {
   position: sticky; top: 0; z-index: 50;
