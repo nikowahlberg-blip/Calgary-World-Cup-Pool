@@ -291,14 +291,19 @@ function updatePhaseUI() {
 // ── INIT ──────────────────────────────────────────────────────────
 (function init() {
   const myName = localStorage.getItem("wc26myname");
+  const myIdx  = localStorage.getItem("wc26myidx");
+  const valid  = myName && myIdx !== null && S.players[parseInt(myIdx)] && S.players[parseInt(myIdx)].name === myName;
 
-  if (myName) {
+  if (valid) {
     document.getElementById("setup-screen").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     showPage("picks");
   } else {
+    localStorage.removeItem("wc26myname");
+    localStorage.removeItem("wc26myidx");
     document.getElementById("setup-screen").classList.remove("hidden");
     document.getElementById("app").classList.add("hidden");
+    renderSetupPlayerList();
   }
 
   updatePhaseUI();
