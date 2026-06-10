@@ -79,7 +79,7 @@ function renderGroupPicksForms(idx, p, isOwner = true) {
   let html = `<div style="padding: 0 16px 6px;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;">
       <div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:0.02em;">Group picks</div>
-      <div class="pts-pill">${isOwner ? "Drag to rank · 2pts each" : "2pts each"}</div>
+      <div class="pts-pill">${isOwner ? "Drag to rank · 1pt each" : "1pt each"}</div>
     </div>
   </div>
   <div class="group-picks-grid">`;
