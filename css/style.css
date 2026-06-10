@@ -914,7 +914,6 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   border-bottom: 1px solid var(--line);
 }
 .lt-row:last-child { border-bottom: none; }
-.lt-row--through .lt-name { color: var(--phosphor); }
 /* highlight a team's row based on whether the current user picked it for this exact spot */
 .lt-row--correct, .lt-row--wrong {
   margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: var(--radius-sm);
