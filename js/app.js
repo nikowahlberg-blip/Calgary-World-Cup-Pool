@@ -167,7 +167,7 @@ function renderLeaderboardPage() {
     const stillAlive = p.maxPossible >= ranked[0].pts;
     const isMe       = myIdx !== null && String(p.idx) === myIdx;
 
-    html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""} ${isMe ? "lb-row--me" : ""}">
+    html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""} ${isMe ? "lb-row--me" : ""}" onclick="toggleLbDetail(${p.idx})">
       <div class="lb-rank">${medals[i] || (i + 1)}</div>
       <div class="lb-avatar">${p.name.slice(0,2).toUpperCase()}</div>
       <div class="lb-info">
@@ -184,7 +184,9 @@ function renderLeaderboardPage() {
           ${i > 0 && gap > 0 ? `<br>–${gap} behind` : ""}
         </div>` : ""}
       </div>
-    </div>`;
+      <div class="lb-expand-arrow" id="lb-arrow-${p.idx}">▾</div>
+    </div>
+    <div class="lb-detail-panel hidden" id="lb-sheet-${p.idx}">${renderPlayerPickSheet(p)}</div>`;
   });
 
   html += `</div>`;
