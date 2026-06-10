@@ -284,14 +284,26 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 
 /* ── LEADERBOARD ──────────────────────────────────────────────── */
 .lb-hero {
-  background: linear-gradient(160deg, rgba(255,215,0,0.10) 0%, var(--pitch2) 100%);
+  position: relative;
+  background: linear-gradient(160deg, rgba(255,215,0,0.14) 0%, var(--pitch2) 65%);
   border-bottom: 1px solid var(--line);
-  padding: 20px 16px 16px;
+  padding: 24px 16px 18px;
+  overflow: hidden;
+}
+.lb-hero::before {
+  content: ""; position: absolute; top: -70%; right: -15%;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%);
+  pointer-events: none;
 }
 .lb-hero-title {
+  position: relative;
   font-family: var(--font-display);
-  font-size: 30px; font-weight: 800; letter-spacing: 0.02em;
+  font-size: 34px; font-weight: 800; letter-spacing: 0.02em;
   margin-bottom: 4px;
+  background: linear-gradient(135deg, #fff 0%, var(--phosphor) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
 }
 .lb-hero-sub { font-size: 13px; color: var(--text2); }
 .lb-player-count { font-size: 13px; color: var(--text3); margin-top: 10px; }
