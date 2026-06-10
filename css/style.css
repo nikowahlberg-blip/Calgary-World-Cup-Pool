@@ -870,7 +870,6 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 }
 
 /* Match score (shared with schedule rows) */
-.match-flag { font-size: 22px; flex-shrink: 0; }
 .match-name { font-size: 14px; font-weight: 600; }
 .match-score {
   display: flex; align-items: center; gap: 4px;
