@@ -21,7 +21,15 @@
     <p>Calgary's World Cup prediction pool. Tap your name to get started!</p>
 
     <div id="setup-player-list" class="setup-player-list"></div>
-    <div id="setup-no-players" class="info hidden">No players yet — ask the pool admin to add everyone's names first.</div>
+    <div id="setup-no-players" class="info hidden">No players yet — be the first to join!</div>
+
+    <div class="setup-section">
+      <label class="setup-label">Don't see your name?</label>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="setup-join-name" placeholder="Type your name" style="flex:1;" onkeydown="if(event.key==='Enter')joinPool()" />
+        <button class="btn-primary" id="setup-join-btn" onclick="joinPool()">Join pool</button>
+      </div>
+    </div>
 
     <div class="admin-setup-toggle">
       <button onclick="toggleAdminSetup()">⚙️ Admin</button>
