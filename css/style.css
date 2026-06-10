@@ -268,6 +268,35 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 .lb-hero-sub { font-size: 13px; color: var(--text2); }
 .lb-player-count { font-size: 13px; color: var(--text3); margin-top: 10px; }
 
+/* Kickoff countdown */
+.lb-countdown:empty { display: none; }
+.lb-countdown { margin-top: 14px; }
+.countdown-label {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;
+}
+.countdown-row { display: flex; gap: 8px; }
+.countdown-unit {
+  flex: 1;
+  background: var(--pitch3); border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.countdown-num {
+  font-family: var(--font-display); font-size: 24px; font-weight: 800;
+  color: var(--phosphor); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.countdown-unit-label {
+  font-size: 10px; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px;
+}
+.countdown-started {
+  font-family: var(--font-display); font-size: 16px; font-weight: 800;
+  color: var(--phosphor); padding: 8px 0;
+}
+
 .lb-list { padding: 8px 12px; }
 .lb-row {
   display: flex; align-items: center; gap: 12px;
