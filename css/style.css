@@ -629,6 +629,22 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 /* bracket pending empty state */
 .bracket-empty { padding: 40px 16px; text-align: center; color: var(--text3); font-size: 14px; }
 
+/* ── FLAG BADGES ──────────────────────────────────────────────── */
+/* Coin-style circular badges around flag emoji, used throughout */
+.flag, .ps-flag, .lt-flag, .match-flag, .sc-flag, .sort-flag {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--pitch3);
+  border: 1px solid var(--line2);
+  flex-shrink: 0;
+  line-height: 1;
+}
+.ps-flag  { width: 22px; height: 22px; font-size: 13px; }
+.lt-flag  { width: 22px; height: 22px; font-size: 13px; }
+.match-flag { width: 32px; height: 32px; font-size: 19px; }
+.sc-flag  { width: 24px; height: 24px; font-size: 14px; }
+.sort-flag { width: 26px; height: 26px; font-size: 15px; }
+
 /* ── GROUPS PAGE ──────────────────────────────────────────────── */
 
 /* ── ADMIN PAGE ───────────────────────────────────────────────── */
