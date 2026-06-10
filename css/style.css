@@ -266,7 +266,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 
 /* ── LEADERBOARD ──────────────────────────────────────────────── */
 .lb-hero {
-  background: linear-gradient(160deg, #e6f4ee 0%, var(--pitch2) 100%);
+  background: linear-gradient(160deg, rgba(255,215,0,0.10) 0%, var(--pitch2) 100%);
   border-bottom: 1px solid var(--line);
   padding: 20px 16px 16px;
 }
