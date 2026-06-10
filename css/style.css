@@ -269,6 +269,13 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 }
 .card-title { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
 
+/* Elevated surfaces — shared depth for a more premium feel */
+.card, .live-group-card, .group-pick-card, .bracket-match, .scorers-card,
+.admin-group-card, .ko-match-admin, .golden-boot-inner, .sync-card,
+.lb-detail-panel, .setup-box, .modal-box, .schedule-row, .ps-group-card {
+  box-shadow: var(--shadow-card);
+}
+
 /* ── LEADERBOARD ──────────────────────────────────────────────── */
 .lb-hero {
   background: linear-gradient(160deg, rgba(255,215,0,0.10) 0%, var(--pitch2) 100%);
