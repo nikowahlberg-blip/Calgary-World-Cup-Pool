@@ -142,6 +142,7 @@ function showPage(name) {
 function rerenderAll() {
   if (_currentPage === "leaderboard") renderLeaderboardPage();
   if (_currentPage === "bracket")     renderBracketPage();
+  if (_currentPage === "groups")      renderGroupsRef();
   if (_currentPage === "admin")       renderAdmin();
 }
 
