@@ -346,6 +346,68 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   text-transform: uppercase; letter-spacing: 0.07em;
 }
 
+/* Expandable pick sheet on leaderboard */
+.lb-row { cursor: pointer; }
+.lb-expand-arrow {
+  font-size: 12px; color: var(--text3);
+  flex-shrink: 0; margin-left: 2px;
+  transition: transform 0.2s ease;
+}
+.lb-expand-arrow.lb-expand-arrow--open { transform: rotate(180deg); color: var(--phosphor); }
+
+.lb-detail-panel {
+  overflow: hidden;
+  background: var(--pitch2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin: 4px 0 10px;
+}
+.lb-detail-panel.hidden { display: none; }
+
+.pick-sheet { padding: 12px; display: flex; flex-direction: column; gap: 14px; }
+.ps-section { display: flex; flex-direction: column; gap: 6px; }
+.ps-label {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+.ps-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 8px; border-radius: 6px;
+  font-size: 13px;
+}
+.ps-row.ps-correct { background: var(--phosphor-dim); color: var(--phosphor); }
+.ps-row.ps-wrong   { background: var(--crimson-dim); color: var(--crimson); opacity: 0.75; }
+.ps-row.ps-pending { background: var(--pitch3); color: var(--text2); }
+.ps-pos { font-weight: 700; width: 16px; flex-shrink: 0; }
+.ps-flag { flex-shrink: 0; }
+.ps-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ps-icon { flex-shrink: 0; font-size: 12px; }
+
+.ps-groups-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+.ps-group-card {
+  background: var(--pitch3); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 8px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.ps-group-title { font-size: 11px; font-weight: 700; color: var(--text3); margin-bottom: 2px; }
+.ps-group-card .ps-row { padding: 3px 6px; font-size: 12px; }
+
+.ps-round { display: flex; flex-direction: column; gap: 6px; }
+.ps-round-title { font-size: 12px; font-weight: 700; color: var(--text2); }
+.ps-round-teams { display: flex; flex-wrap: wrap; gap: 6px; }
+.ps-pill {
+  font-size: 12px; padding: 4px 10px; border-radius: 12px;
+  background: var(--pitch3); color: var(--text2);
+  border: 1px solid var(--line);
+}
+.ps-pill-correct { background: var(--phosphor-dim); color: var(--phosphor); border-color: var(--phosphor); }
+.ps-pill-wrong   { background: var(--crimson-dim); color: var(--crimson); border-color: var(--crimson); opacity: 0.75; }
+.ps-pill-pending { background: var(--pitch3); color: var(--text2); }
+
 /* ── PICKS PAGE ───────────────────────────────────────────────── */
 .picks-header {
   padding: 20px 16px 12px;
