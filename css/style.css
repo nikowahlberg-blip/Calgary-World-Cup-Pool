@@ -277,6 +277,22 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 }
 .lb-row:last-child { border-bottom: none; }
 .lb-row.lb-row--top3 { padding: 14px 4px; }
+.lb-row.lb-row--me {
+  background: var(--phosphor-dim);
+  border-radius: var(--radius-sm);
+  padding-left: 8px; padding-right: 8px;
+  margin: 0 -8px;
+  border-bottom-color: transparent;
+}
+.lb-me-tag {
+  display: inline-block;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--phosphor); background: var(--pitch2);
+  border: 1px solid var(--phosphor);
+  border-radius: 8px; padding: 1px 6px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
 
 .lb-rank {
   font-family: var(--font-display);
