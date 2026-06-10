@@ -185,7 +185,15 @@ async function handlePool(request, env, url, corsHeaders) {
       if (hash !== state.adminPwHash) return json({ error: "Unauthorized" }, 401, corsHeaders);
     }
     const patch = body.patch || {};
-    ["players", "phase", "goldenBootResult", "bracketTeams", "koResults", "groupResults", "groupStandings", "locks", "lastSync"].forEach(k => {
+    // clients only ever see players with pwHash stripped — re-attach existing
+    // password hashes (matched by name) so admin edits don't wipe them out
+    if (patch.players !== undefined) {
+      state.players = patch.players.map(p => {
+        const existing = state.players.find(ep => ep.name === p.name);
+        return existing?.pwHash ? { ...p, pwHash: existing.pwHash } : p;
+      });
+    }
+    ["phase", "goldenBootResult", "bracketTeams", "koResults", "groupResults", "groupStandings", "locks", "lastSync"].forEach(k => {
       if (patch[k] !== undefined) state[k] = patch[k];
     });
     await putState(env, state);
