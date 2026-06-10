@@ -904,9 +904,10 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 /* ── SCHEDULE PAGE ────────────────────────────────────────────── */
 .schedule-list { padding: 4px 16px 24px; }
 .schedule-date-header {
-  font-size: 11px; font-weight: 700; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.07em;
-  margin: 16px 0 8px;
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 800; color: var(--phosphor);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin: 18px 0 8px;
 }
 .schedule-date-header:first-child { margin-top: 12px; }
 .schedule-row {
