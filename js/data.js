@@ -80,4 +80,20 @@ const DEFAULT_STATE = () => ({
   koResults:        {},   // {r32:[{t1,t2,winner},...], ...}
   goldenBootResult: "",
   lastSync:         null,
+  locks:            { group: null, ko: null }, // null = auto by kickoff date, true = force locked, false = force unlocked
 });
+
+// ── PICKS LOCKING ─────────────────────────────────────────────────
+function isGroupPicksLocked() {
+  const override = S.locks && S.locks.group;
+  if (override === true)  return true;
+  if (override === false) return false;
+  return new Date() >= GROUP_STAGE_KICKOFF;
+}
+
+function isKOPicksLocked() {
+  const override = S.locks && S.locks.ko;
+  if (override === true)  return true;
+  if (override === false) return false;
+  return new Date() >= KNOCKOUT_KICKOFF;
+}
