@@ -113,7 +113,7 @@ function renderLockCard() {
   </div>`;
 }
 
-function saveLockOverrides() {
+async function saveLockOverrides() {
   const parse = v => v === "locked" ? true : v === "unlocked" ? false : null;
   S.locks = {
     group: parse(document.getElementById("lock-group").value),
@@ -121,6 +121,7 @@ function saveLockOverrides() {
   };
   save();
   toast("Picks lock settings saved!");
+  await pushAdminPatch({ locks: S.locks });
   renderAdmin();
 }
 
