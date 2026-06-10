@@ -136,8 +136,8 @@ a:hover { text-decoration: underline; }
 .app-header {
   position: sticky; top: 0; z-index: 50;
   background: linear-gradient(135deg, #8a0e23 0%, #2c0c1a 100%);
-  border-bottom: 2px solid var(--phosphor);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.45);
+  border-bottom: 1px solid var(--phosphor);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.45), 0 1px 14px rgba(255,215,0,0.25);
   padding-top: var(--safe-top);
 }
 .header-inner {
