@@ -22,12 +22,19 @@ function requireAdmin(page) {
   document.getElementById("admin-modal").classList.remove("hidden");
   document.getElementById("admin-pw-input").focus();
 }
+function adminLoginFromSetup() {
+  _pendingAdminPage = "admin";
+  document.getElementById("admin-modal").classList.remove("hidden");
+  document.getElementById("admin-pw-input").focus();
+}
 function checkAdminPw() {
   const pw     = document.getElementById("admin-pw-input").value;
   const stored = localStorage.getItem("wc26adminpw") || "";
   if (pw === stored) {
     _adminUnlocked = true;
     closeModal();
+    document.getElementById("setup-screen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
     if (_pendingAdminPage) { showPage(_pendingAdminPage); _pendingAdminPage = null; }
   } else {
     document.getElementById("admin-pw-error").classList.remove("hidden");
