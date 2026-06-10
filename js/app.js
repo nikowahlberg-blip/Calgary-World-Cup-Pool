@@ -158,17 +158,20 @@ function renderLeaderboardPage() {
     </div>`;
   }
 
+  const myIdx = localStorage.getItem("wc26myidx");
+
   html += `<div class="lb-list">`;
   ranked.forEach((p, i) => {
     const medals = ["🥇","🥈","🥉"];
     const gap        = i > 0 ? ranked[0].pts - p.pts : 0;
     const stillAlive = p.maxPossible >= ranked[0].pts;
+    const isMe       = myIdx !== null && String(p.idx) === myIdx;
 
-    html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""}">
+    html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""} ${isMe ? "lb-row--me" : ""}">
       <div class="lb-rank">${medals[i] || (i + 1)}</div>
       <div class="lb-avatar">${p.name.slice(0,2).toUpperCase()}</div>
       <div class="lb-info">
-        <div class="lb-name">${p.name}</div>
+        <div class="lb-name">${p.name}${isMe ? ` <span class="lb-me-tag">You</span>` : ""}</div>
         ${hasResults && p.breakdown
           ? `<div class="lb-detail">${p.breakdown}</div>`
           : `<div class="lb-picks-preview">${formatPicksPreview(p)}</div>`}
