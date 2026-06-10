@@ -824,7 +824,6 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 }
 .drag-handle:active { cursor: grabbing; }
 .sort-pos  { font-size: 14px; width: 22px; text-align: center; flex-shrink: 0; }
-.sort-flag { font-size: 17px; flex-shrink: 0; }
 .sort-name { flex: 1; font-size: 12px; font-weight: 500; }
 .sort-pts  { font-size: 10px; color: var(--text3); font-weight: 600; flex-shrink: 0; }
 
