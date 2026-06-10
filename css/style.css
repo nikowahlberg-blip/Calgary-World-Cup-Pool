@@ -905,50 +905,6 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-/* Group standings live table */
-.live-standings-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.live-group-card {
-  background: var(--pitch2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 12px;
-  overflow: hidden;
-}
-.live-group-label {
-  font-size: 11px; font-weight: 700; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.07em;
-  margin-bottom: 8px;
-}
-.live-table-header, .lt-row {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 11px;
-}
-.live-table-header {
-  color: var(--text3); font-weight: 600;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 4px;
-}
-.lt-row {
-  padding: 4px 0;
-  border-bottom: 1px solid var(--line);
-}
-.lt-row:last-child { border-bottom: none; }
-.lt-row--through .lt-name { color: var(--phosphor); }
-.lt-team-col { flex: 1; display: flex; align-items: center; gap: 5px; min-width: 0; overflow: hidden; }
-.lt-pos  { font-weight: 700; width: 12px; text-align: center; color: var(--text3); font-size: 10px; flex-shrink: 0; }
-.lt-flag { font-size: 14px; flex-shrink: 0; }
-.lt-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-.lt-stat { width: 22px; text-align: center; flex-shrink: 0; color: var(--text2); }
-.lt-gd   { color: var(--text3); }
-.lt-pts  { width: 28px; text-align: center; flex-shrink: 0; font-weight: 700; color: var(--text3); }
-.lt-pts-val { color: var(--text); }
-
 /* Top scorers */
 .scorers-card {
   background: var(--pitch2);
