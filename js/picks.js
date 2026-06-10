@@ -74,7 +74,7 @@ function renderGoldenBootPick(idx, p, isOwner = true) {
 
 function renderGroupPicksForms(idx, p, isOwner = true) {
   const medals   = ["🥇","🥈","🥉","4️⃣"];
-  const ptLabels = ["2pts","2pts","2pts","2pts"];
+  const ptLabels = ["1pt","1pt","1pt","1pt"];
 
   let html = `<div style="padding: 0 16px 6px;">
     <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;">
@@ -173,7 +173,7 @@ function _dragEnd() {
 
 function _updateSortPositions(list) {
   const medals   = ["🥇","🥈","🥉","4️⃣"];
-  const ptLabels = ["2pts","2pts","2pts","2pts"];
+  const ptLabels = ["1pt","1pt","1pt","1pt"];
   [...list.querySelectorAll('.sort-item')].forEach((item, i) => {
     const posEl = item.querySelector('.sort-pos');
     const ptsEl = item.querySelector('.sort-pts');
