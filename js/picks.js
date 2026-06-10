@@ -236,9 +236,10 @@ function onBracketPickChange(idx, roundId, pos, val) {
   save();
   // re-render just the picks content so downstream selects update
   setTimeout(() => renderPicksForPlayer(), 30);
+  apiSavePlayerPicks(idx, p.name, { bracketPicks: p.bracketPicks }).catch(() => {});
 }
 
-function saveAllPicks(idx) {
+async function saveAllPicks(idx) {
   const p = S.players[idx];
 
   // Golden boot
@@ -262,7 +263,17 @@ function saveAllPicks(idx) {
 
   save();
   renderPlayers();
-  toast("✅ Picks saved for " + p.name + "!");
+
+  try {
+    await apiSavePlayerPicks(idx, p.name, {
+      groupPicks:   p.groupPicks,
+      bracketPicks: p.bracketPicks,
+      goldenBoot:   p.goldenBoot,
+    });
+    toast("✅ Picks saved for " + p.name + "!");
+  } catch (e) {
+    toast("⚠️ Saved on this device — cloud sync failed");
+  }
 }
 
 function renderPlayers() {
