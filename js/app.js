@@ -95,6 +95,34 @@ function claimPlayer(idx) {
   toast("Welcome, " + p.name + "!");
 }
 
+async function joinPool() {
+  const inp  = document.getElementById("setup-join-name");
+  const name = inp.value.trim();
+  if (!name) return;
+  if (S.players.find(p => p.name.toLowerCase() === name.toLowerCase())) {
+    toast("That name is already in the pool — tap it above instead.");
+    return;
+  }
+
+  const btn = document.getElementById("setup-join-btn");
+  btn.disabled = true;
+  btn.textContent = "Joining…";
+
+  try {
+    const cloud = await apiJoinPool(name);
+    const { idx, ...poolState } = cloud;
+    Object.assign(S, poolState);
+    if (!S.locks) S.locks = { group: null, ko: null };
+    save();
+    claimPlayer(idx);
+  } catch (e) {
+    toast("❌ " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Join pool";
+  }
+}
+
 function switchUser() {
   localStorage.removeItem("wc26myname");
   localStorage.removeItem("wc26myidx");
