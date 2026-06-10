@@ -967,7 +967,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 hr.sep { border: none; border-top: 1px solid var(--line); margin: 8px 16px; }
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text3); font-size: 14px; line-height: 1.6; }
 .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
-.text-green { color: var(--phosphor); }
+.text-green { color: var(--emerald); }
 .text-amber { color: var(--amber); }
 .text-red   { color: var(--crimson); }
 .text-blue  { color: var(--sky); }
