@@ -64,9 +64,9 @@ const GROUP_STAGE_KICKOFF = new Date("2026-06-11T17:00:00-04:00"); // first grou
 const KNOCKOUT_KICKOFF    = new Date("2026-06-29T12:00:00-04:00"); // first Round of 32 match
 
 // ── SCORING ───────────────────────────────────────────────────────
-const GROUP_PTS     = { 1:2, 2:2, 3:2, 4:2 };
+const GROUP_PTS     = { 1:1, 2:1, 3:1, 4:1 };
 const GOLDEN_PTS    = 4;
-const MAX_GROUP_PTS = 12 * (2 + 2 + 2 + 2);  // 96
+const MAX_GROUP_PTS = 12 * (1 + 1 + 1 + 1);  // 48
 const MAX_KO_PTS    = KO_ROUNDS.reduce((a, r) => a + r.size * r.pts, 0); // 2*32+3*16+4*8+5*4+6*2+8*1 = 64+48+32+20+12+8 = 184
 const MAX_TOTAL_PTS = MAX_GROUP_PTS + GOLDEN_PTS + MAX_KO_PTS;
 
