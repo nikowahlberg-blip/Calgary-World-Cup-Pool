@@ -71,7 +71,7 @@ async function putState(env, state) {
 // strip server-only fields before sending state to clients
 function publicState(state) {
   const { adminPwHash, ...rest } = state;
-  return rest;
+  return { ...rest, players: state.players.map(({ pwHash, ...p }) => p) };
 }
 
 async function sha256Hex(text) {
