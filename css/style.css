@@ -2,26 +2,26 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Palette: clean white + vibrant emerald + warm amber */
-  --pitch:    #f4f7f6;
-  --pitch2:   #ffffff;
-  --pitch3:   #eef2f0;
-  --pitch4:   #e4ebe7;
-  --line:     rgba(0,0,0,0.08);
-  --line2:    rgba(0,0,0,0.13);
+  /* FIFA World Cup 2026 — red/white/blue/gold stadium theme */
+  --pitch:    #1b0a12;   /* deep base — used as dark text on bright buttons */
+  --pitch2:   #2c121c;   /* card surface */
+  --pitch3:   #3c1c28;   /* secondary surface */
+  --pitch4:   #4d2534;   /* tertiary / hover surface */
+  --line:     rgba(255,255,255,0.10);
+  --line2:    rgba(255,255,255,0.20);
 
-  --phosphor: #10b981;       /* emerald green — correct picks, wins */
-  --phosphor-dim: #d1fae5;   /* muted green bg */
-  --amber:    #f59e0b;       /* highlights, warnings */
-  --amber-dim:#fef3c7;
-  --crimson:  #ef4444;       /* eliminated / bust */
-  --crimson-dim:#fee2e2;
-  --sky:      #3b82f6;       /* info, links */
-  --sky-dim:  #dbeafe;
+  --phosphor: #ffd700;       /* gold — correct picks, wins, highlights */
+  --phosphor-dim: rgba(255,215,0,0.15);
+  --amber:    #ff9f1c;       /* warm amber — warnings, rank #1 */
+  --amber-dim: rgba(255,159,28,0.16);
+  --crimson:  #ff4d5e;       /* eliminated / bust / wrong */
+  --crimson-dim: rgba(255,77,94,0.18);
+  --sky:      #4cc9f0;       /* bright blue — info, links */
+  --sky-dim:  rgba(76,201,240,0.16);
 
-  --text:     #0f172a;
-  --text2:    #475569;
-  --text3:    #94a3b8;
+  --text:     #ffffff;
+  --text2:    #e3d4da;
+  --text3:    #a4909b;
 
   --font-display: 'Barlow Condensed', sans-serif;
   --font-body:    'Inter', sans-serif;
@@ -38,7 +38,12 @@
 html { height: 100%; }
 body {
   font-family: var(--font-body);
-  background: var(--pitch);
+  background-color: #1b0a12;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 2px, transparent 2px, transparent 36px),
+    linear-gradient(165deg, #7a0c1e 0%, #4a0e1c 30%, #240a18 58%, #120810 100%);
+  background-attachment: fixed;
+  background-size: cover;
   color: var(--text);
   min-height: 100%;
   font-size: 15px;
