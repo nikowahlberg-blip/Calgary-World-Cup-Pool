@@ -1,3 +1,7 @@
 name = "calgary-wc-pool-proxy"
 main = "worker.js"
 compatibility_date = "2026-01-01"
+
+[[kv_namespaces]]
+binding = "POOL_DATA"
+id = "fd6411fa70964f2784afe4c92f50f8ce"
