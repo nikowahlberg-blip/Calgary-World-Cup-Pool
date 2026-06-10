@@ -25,10 +25,12 @@
 
     <div class="setup-section">
       <label class="setup-label">Don't see your name?</label>
-      <div style="display:flex;gap:8px;">
-        <input type="text" id="setup-join-name" placeholder="Type your name" style="flex:1;" onkeydown="if(event.key==='Enter')joinPool()" />
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <input type="text" id="setup-join-name" placeholder="Your name" />
+        <input type="password" id="setup-join-pw" placeholder="Create a password" onkeydown="if(event.key==='Enter')joinPool()" />
         <button class="btn-primary" id="setup-join-btn" onclick="joinPool()">Join pool</button>
       </div>
+      <p class="hint">Set a password so only you can access your picks — you'll need it to log in on other devices too.</p>
     </div>
 
     <div class="admin-setup-toggle">
