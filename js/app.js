@@ -202,6 +202,88 @@ function renderLeaderboardPage() {
   el.innerHTML = html;
 }
 
+function toggleLbDetail(idx) {
+  const panel = document.getElementById(`lb-sheet-${idx}`);
+  const arrow = document.getElementById(`lb-arrow-${idx}`);
+  if (!panel) return;
+  panel.classList.toggle("hidden");
+  if (arrow) arrow.classList.toggle("lb-expand-arrow--open", !panel.classList.contains("hidden"));
+}
+
+// Full pick sheet for a player: groups, golden boot, bracket — with correct/wrong/pending status
+function renderPlayerPickSheet(p) {
+  let html = `<div class="pick-sheet">`;
+
+  // Golden boot
+  const gbPick = (p.goldenBoot || "").trim();
+  const gbStatus = !S.goldenBootResult ? "pending"
+    : (gbPick && gbPick.toLowerCase() === S.goldenBootResult.trim().toLowerCase()) ? "correct" : "wrong";
+  html += `<div class="ps-section">
+    <div class="ps-label">⚽ Golden Boot — 4pts</div>
+    <div class="ps-row ps-${gbStatus}">
+      <span class="ps-name">${gbPick || "— no pick —"}</span>
+      <span class="ps-icon">${gbStatus === "correct" ? "✅" : gbStatus === "wrong" ? "❌" : ""}</span>
+    </div>
+  </div>`;
+
+  // Group picks
+  html += `<div class="ps-section">
+    <div class="ps-label">🌍 Group Picks — 2pts each</div>
+    <div class="ps-groups-grid">`;
+  Object.entries(GROUPS).forEach(([g, teams]) => {
+    const gp  = p.groupPicks[g] || {};
+    const res = S.groupResults[g] || {};
+    html += `<div class="ps-group-card"><div class="ps-group-title">Group ${g}</div>`;
+    [1,2,3,4].forEach(pos => {
+      const pick = gp[pos];
+      if (!pick) {
+        html += `<div class="ps-row ps-pending"><span class="ps-pos">${pos}.</span><span class="ps-name">—</span></div>`;
+        return;
+      }
+      const status = !res[pos] ? "pending" : (res[pos] === pick ? "correct" : "wrong");
+      html += `<div class="ps-row ps-${status}">
+        <span class="ps-pos">${pos}.</span>
+        <span class="ps-flag">${flag(pick)}</span>
+        <span class="ps-name">${pick}</span>
+        <span class="ps-icon">${status === "correct" ? "✅" : status === "wrong" ? "❌" : ""}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div></div>`;
+
+  // Bracket picks
+  if (S.phase === "bracket") {
+    const eliminated = getEliminatedTeams();
+    let bracketHtml = "";
+    KO_ROUNDS.forEach(round => {
+      const picks = ((p.bracketPicks && p.bracketPicks[round.id]) || []).filter(Boolean);
+      if (!picks.length) return;
+      const results = S.koResults[round.id] || [];
+      const winners = new Set(results.map(m => m.winner).filter(Boolean));
+      bracketHtml += `<div class="ps-round">
+        <div class="ps-round-title">${round.label} — ${round.pts}pts each</div>
+        <div class="ps-round-teams">`;
+      picks.forEach(team => {
+        let status = "pending";
+        if (winners.has(team)) status = "correct";
+        else if (eliminated.has(team)) status = "wrong";
+        bracketHtml += `<span class="ps-pill ps-pill-${status}">${flag(team)} ${team}${status === "correct" ? " ✅" : status === "wrong" ? " ❌" : ""}</span>`;
+      });
+      bracketHtml += `</div></div>`;
+    });
+    if (bracketHtml) {
+      html += `<div class="ps-section">
+        <div class="ps-label">🗂 Bracket Picks</div>
+        ${bracketHtml}
+      </div>`;
+    }
+  }
+
+  html += `</div>`;
+  return html;
+}
+
 function renderSurvivalPips(survival) {
   if (!survival || !survival.length) return "";
   const labels = ["R32","R16","QF","SF","F","🏆"];
