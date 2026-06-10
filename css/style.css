@@ -531,8 +531,8 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 12px;
+  overflow: hidden;
 }
-.group-pick-card .card-title { margin-bottom: 10px; font-size: 12px; }
 
 .round-picks-section { padding: 0 16px 8px; }
 .round-picks-header {
