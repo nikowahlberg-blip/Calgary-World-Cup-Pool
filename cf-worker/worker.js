@@ -212,6 +212,12 @@ async function handlePool(request, env, url, corsHeaders) {
       if (hash !== state.adminPwHash) return json({ error: "Unauthorized" }, 401, corsHeaders);
     }
     const incoming = body.state || {};
+    if (incoming.players) {
+      incoming.players = incoming.players.map(p => {
+        const existing = state.players.find(ep => ep.name === p.name);
+        return existing?.pwHash ? { ...p, pwHash: existing.pwHash } : p;
+      });
+    }
     const merged = { ...EMPTY_STATE(), ...incoming, adminPwHash: state.adminPwHash };
     await putState(env, merged);
     return json(publicState(merged), 200, corsHeaders);
