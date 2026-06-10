@@ -191,7 +191,7 @@ a:hover { text-decoration: underline; }
   white-space: nowrap;
 }
 .nav-btn .nav-icon { font-size: 18px; }
-.nav-btn.active { color: var(--phosphor); border-bottom-color: var(--phosphor); }
+.nav-btn.active { color: var(--phosphor); border-bottom-color: var(--phosphor); text-shadow: 0 0 12px rgba(255,215,0,0.4); }
 .nav-btn:hover:not(.active) { color: var(--text2); }
 
 /* ── MAIN ─────────────────────────────────────────────────────── */
