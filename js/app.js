@@ -256,7 +256,7 @@ function renderLeaderboardPage() {
   // Scoring key at the bottom
   html += `<div style="padding:14px 16px 24px;">
     <div style="font-size:11px;color:var(--text3);line-height:1.8;">
-      Scoring: Groups any correct position=2 · Golden boot=4<br>
+      Scoring: Groups any correct position=1 · Golden boot=4<br>
       Bracket: R32=2 · R16=3 · QF=4 · SF=5 · Final=6 · Champion=8
     </div>
   </div>`;
