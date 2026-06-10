@@ -420,16 +420,37 @@ function updatePhaseUI() {
   });
 }
 
+// ── CONFETTI ──────────────────────────────────────────────────────
+function triggerConfetti() {
+  const colors = ["#e63946", "#ffd166", "#2a9d8f", "#ffffff", "#1d3557"];
+  const container = document.createElement("div");
+  container.className = "confetti-container";
+  for (let i = 0; i < 80; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti-piece";
+    piece.style.left = Math.random() * 100 + "vw";
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = (Math.random() * 0.6) + "s";
+    piece.style.animationDuration = (2.5 + Math.random() * 1.5) + "s";
+    piece.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+    container.appendChild(piece);
+  }
+  document.body.appendChild(container);
+  setTimeout(() => container.remove(), 4500);
+}
+
 // ── INIT ──────────────────────────────────────────────────────────
 (function init() {
   const myName = localStorage.getItem("wc26myname");
   const myIdx  = localStorage.getItem("wc26myidx");
   const valid  = myName && myIdx !== null && S.players[parseInt(myIdx)] && S.players[parseInt(myIdx)].name === myName;
 
+  let prevPts = null;
   if (valid) {
     document.getElementById("setup-screen").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     showPage("picks");
+    prevPts = calcCurrentPts(S.players[parseInt(myIdx)]);
   } else {
     localStorage.removeItem("wc26myname");
     localStorage.removeItem("wc26myidx");
@@ -443,6 +464,14 @@ function updatePhaseUI() {
   renderLeaderboardPage();
   renderGroupsRef();
 
-  syncAll(null).catch(() => {});
+  syncAll(null).then(() => {
+    if (valid) {
+      const newPts = calcCurrentPts(S.players[parseInt(myIdx)]);
+      if (newPts > prevPts) {
+        toast("🎉 You scored points!");
+        triggerConfetti();
+      }
+    }
+  }).catch(() => {});
   setInterval(updateSyncInfo, 60_000);
 })();
