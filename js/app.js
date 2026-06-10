@@ -424,64 +424,67 @@ function formatPicksPreview(p) {
 }
 
 // ── GROUPS REFERENCE ──────────────────────────────────────────────
+
+// Returns the 4 standings rows for a group, preferring live API data,
+// falling back to the admin's manually-entered results, falling back
+// to the group's default team order (no real standings yet).
+function getGroupStandingsRows(g) {
+  const live = S.groupStandings[g];
+  if (live && live.length) return live.map(r => ({ ...r, hasStats: true }));
+
+  const res = S.groupResults[g] || {};
+  if (Object.keys(res).length) {
+    return [1,2,3,4].map(pos => ({ position: pos, team: res[pos] || GROUPS[g][pos-1], hasStats: false }));
+  }
+  return GROUPS[g].map((team, i) => ({ position: i+1, team, hasStats: false }));
+}
+
 function renderGroupsRef() {
   const el = document.getElementById("groups-ref");
   if (!el) return;
 
-  const hasStandings = Object.keys(S.groupStandings || {}).length > 0;
+  const myIdx = parseInt(localStorage.getItem("wc26myidx"));
+  const me    = S.players[myIdx];
 
-  if (hasStandings) {
-    el.className = "live-standings-grid";
-    el.innerHTML = Object.keys(GROUPS).map(g => {
-      const rows = S.groupStandings[g] || [];
-      if (!rows.length) return "";
-      return `<div class="live-group-card">
-        <div class="live-group-label">Group ${g}</div>
-        <div class="live-table-header">
-          <span class="lt-team-col"></span>
-          <span class="lt-stat">GP</span>
-          <span class="lt-stat">GF</span>
-          <span class="lt-stat">GA</span>
-          <span class="lt-stat">GD</span>
-          <span class="lt-pts">P</span>
-        </div>
-        ${rows.map((row, i) => {
-          const team = row.team;
-          const gd   = row.goalDifference >= 0 ? `+${row.goalDifference}` : String(row.goalDifference);
-          const through = i < 2 ? "lt-row--through" : "";
-          return `<div class="lt-row ${through}">
-            <span class="lt-team-col">
-              <span class="lt-pos">${row.position}</span>
-              <span class="lt-flag">${flag(team)}</span>
-              <span class="lt-name">${team}</span>
-            </span>
-            <span class="lt-stat">${row.playedGames}</span>
-            <span class="lt-stat">${row.goalsFor}</span>
-            <span class="lt-stat">${row.goalsAgainst}</span>
-            <span class="lt-stat lt-gd">${gd}</span>
-            <span class="lt-pts lt-pts-val">${row.points}</span>
-          </div>`;
-        }).join("")}
-      </div>`;
-    }).join("");
-    return;
-  }
+  el.className = "live-standings-grid";
+  el.innerHTML = Object.keys(GROUPS).map(g => {
+    const rows      = getGroupStandingsRows(g);
+    const hasActual = (S.groupStandings[g] || []).length > 0 || Object.keys(S.groupResults[g] || {}).length > 0;
+    const myPicks   = me?.groupPicks?.[g] || {};
 
-  el.className = "groups-ref-grid";
-  el.innerHTML = Object.entries(GROUPS).map(([g, teams]) => {
-    const res = S.groupResults[g] || {};
-    const standings = res[1] ? teams.slice().sort((a,b) => {
-      const posA = Object.entries(res).find(([,v])=>v===a)?.[0] || 9;
-      const posB = Object.entries(res).find(([,v])=>v===b)?.[0] || 9;
-      return posA - posB;
-    }) : teams;
-    return `<div class="group-ref-card">
-      <div class="group-ref-label">Group ${g}</div>
-      ${standings.map(t => {
-        const pos = Object.entries(res).find(([,v]) => v === t)?.[0];
-        const posCls = pos === "1" || pos === "2" ? "pos-through" : pos === "3" ? "pos-maybe" : pos === "4" ? "pos-out" : "";
-        const posLabel = pos ? `<span class="group-pos ${posCls}">${pos}</span>` : "";
-        return `<div class="team-ref-row"><span class="flag">${flag(t)}</span>${t}${posLabel}</div>`;
+    return `<div class="live-group-card">
+      <div class="live-group-label">Group ${g}</div>
+      <div class="live-table-header">
+        <span class="lt-team-col"></span>
+        <span class="lt-stat">GP</span>
+        <span class="lt-stat">GF</span>
+        <span class="lt-stat">GA</span>
+        <span class="lt-stat">GD</span>
+        <span class="lt-pts">P</span>
+      </div>
+      ${rows.map(row => {
+        const team    = row.team;
+        const through = row.position <= 2 ? "lt-row--through" : "";
+
+        let pickCls = "";
+        if (hasActual) {
+          const predictedPos = Object.keys(myPicks).find(k => myPicks[k] === team);
+          if (predictedPos) pickCls = (parseInt(predictedPos) === row.position) ? "lt-row--correct" : "lt-row--wrong";
+        }
+
+        const gd = row.hasStats ? (row.goalDifference >= 0 ? `+${row.goalDifference}` : String(row.goalDifference)) : "–";
+        return `<div class="lt-row ${through} ${pickCls}">
+          <span class="lt-team-col">
+            <span class="lt-pos">${row.position}</span>
+            <span class="lt-flag">${flag(team)}</span>
+            <span class="lt-name">${team}</span>
+          </span>
+          <span class="lt-stat">${row.hasStats ? row.playedGames    : "–"}</span>
+          <span class="lt-stat">${row.hasStats ? row.goalsFor       : "–"}</span>
+          <span class="lt-stat">${row.hasStats ? row.goalsAgainst   : "–"}</span>
+          <span class="lt-stat lt-gd">${gd}</span>
+          <span class="lt-pts lt-pts-val">${row.hasStats ? row.points : "–"}</span>
+        </div>`;
       }).join("")}
     </div>`;
   }).join("");
