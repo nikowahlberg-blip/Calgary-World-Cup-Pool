@@ -1,5 +1,6 @@
 // ── STATE ─────────────────────────────────────────────────────────
 let S = JSON.parse(localStorage.getItem("wc26pool") || "null") || DEFAULT_STATE();
+if (!S.locks) S.locks = { group: null, ko: null };
 const save = () => { try { localStorage.setItem("wc26pool", JSON.stringify(S)); } catch(e) {} };
 
 // ── TOAST ─────────────────────────────────────────────────────────
