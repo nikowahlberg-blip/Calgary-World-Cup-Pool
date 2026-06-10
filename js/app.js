@@ -349,7 +349,7 @@ function renderPlayerPickSheet(p) {
 
   // Group picks
   html += `<div class="ps-section">
-    <div class="ps-label">🌍 Group Picks — 2pts each</div>
+    <div class="ps-label">🌍 Group Picks — 1pt each</div>
     <div class="ps-groups-grid">`;
   Object.keys(GROUPS).forEach(g => {
     const gp  = p.groupPicks[g] || {};
