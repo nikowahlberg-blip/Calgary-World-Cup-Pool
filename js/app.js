@@ -151,6 +151,7 @@ function renderLeaderboardPage() {
   let html = `<div class="lb-hero">
     <div class="lb-hero-title">Standings</div>
     <div class="lb-hero-sub">${hasResults ? "Live scores · " : "Waiting for results · "}${ranked.length} players</div>
+    <div class="lb-countdown" id="lb-countdown"></div>
   </div>`;
 
   if (!hasResults) {
