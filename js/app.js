@@ -82,25 +82,42 @@ function renderSetupPlayerList() {
   ).join("");
 }
 
-function claimPlayer(idx) {
-  const p = S.players[idx];
-  if (!p) return;
-
-  localStorage.setItem("wc26myname", p.name);
+function enterAsPlayer(idx, name) {
+  localStorage.setItem("wc26myname", name);
   localStorage.setItem("wc26myidx",  String(idx));
 
   document.getElementById("setup-screen").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   showPage("picks");
-  toast("Welcome, " + p.name + "!");
+  toast("Welcome, " + name + "!");
+}
+
+async function claimPlayer(idx) {
+  const p = S.players[idx];
+  if (!p) return;
+
+  const password = prompt(`Enter your password to continue as ${p.name}:`);
+  if (password === null) return;
+
+  try {
+    await apiLoginPlayer(p.name, password);
+  } catch (e) {
+    toast("❌ " + e.message);
+    return;
+  }
+
+  enterAsPlayer(idx, p.name);
 }
 
 async function joinPool() {
-  const inp  = document.getElementById("setup-join-name");
-  const name = inp.value.trim();
+  const nameInp = document.getElementById("setup-join-name");
+  const pwInp   = document.getElementById("setup-join-pw");
+  const name    = nameInp.value.trim();
+  const password = pwInp.value;
   if (!name) return;
+  if (!password || password.length < 4) { toast("Password must be at least 4 characters"); return; }
   if (S.players.find(p => p.name.toLowerCase() === name.toLowerCase())) {
-    toast("That name is already in the pool — tap it above instead.");
+    toast("That name is already in the pool — tap it above to log in.");
     return;
   }
 
@@ -109,12 +126,12 @@ async function joinPool() {
   btn.textContent = "Joining…";
 
   try {
-    const cloud = await apiJoinPool(name);
+    const cloud = await apiJoinPool(name, password);
     const { idx, ...poolState } = cloud;
     Object.assign(S, poolState);
     if (!S.locks) S.locks = { group: null, ko: null };
     save();
-    claimPlayer(idx);
+    enterAsPlayer(idx, name);
   } catch (e) {
     toast("❌ " + e.message);
   } finally {
