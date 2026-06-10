@@ -41,8 +41,12 @@ async function apiSavePlayerPicks(idx, name, picks) {
   return apiPost(`/pool/picks`, { idx, name, ...picks });
 }
 
-async function apiJoinPool(name) {
-  return apiPost(`/pool/join`, { name });
+async function apiJoinPool(name, password) {
+  return apiPost(`/pool/join`, { name, password });
+}
+
+async function apiLoginPlayer(name, password) {
+  return apiPost(`/pool/login`, { name, password });
 }
 
 async function apiCheckAdminPw(adminPw) {
