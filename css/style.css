@@ -308,11 +308,16 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 }
 
 .lb-list { padding: 8px 12px; }
+@keyframes lb-row-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .lb-row {
   display: flex; align-items: center; gap: 12px;
   padding: 12px 4px;
   border-bottom: 1px solid var(--line);
   position: relative;
+  animation: lb-row-in 0.45s cubic-bezier(0.22,1,0.36,1) both;
 }
 .lb-row:last-child { border-bottom: none; }
 .lb-row.lb-row--top3 { padding: 14px 4px; }
