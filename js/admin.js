@@ -27,6 +27,9 @@ function renderAdmin() {
         : "✅ <strong>Bracket phase active.</strong> The bracket is open. Sync or manually enter KO results round by round."}
     </div>`;
 
+  // Picks lock overrides
+  html += renderLockCard();
+
   // Golden boot result
   html += `<div class="card">
     <div class="card-title">Golden boot result</div>
