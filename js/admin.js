@@ -62,6 +62,46 @@ function renderAdmin() {
   renderPlayers();
 }
 
+function renderLockCard() {
+  const lockSelect = (id, override, autoLockDate) => {
+    const auto = new Date() >= autoLockDate;
+    const opt = v => `<option value="${v}"${(override === (v === "auto" ? null : v === "locked")) ? " selected" : ""}>${
+      v === "auto" ? `Auto (currently ${auto ? "locked" : "unlocked"})` : v === "locked" ? "Force locked" : "Force unlocked"
+    }</option>`;
+    return `<select id="${id}">${opt("auto")}${opt("locked")}${opt("unlocked")}</select>`;
+  };
+
+  return `<div class="card">
+    <div class="card-title">Picks lock</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:10px;">
+      Group picks auto-lock at kickoff of the first group match (Jun 11, 2026, 5pm ET).
+      Bracket picks auto-lock at kickoff of the first Round of 32 match (Jun 29, 2026, 12pm ET).
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:320px;">
+      <div>
+        <label style="margin-bottom:4px;">Group stage picks</label>
+        ${lockSelect("lock-group", S.locks?.group ?? null, GROUP_STAGE_KICKOFF)}
+      </div>
+      <div>
+        <label style="margin-bottom:4px;">Knockout bracket picks</label>
+        ${lockSelect("lock-ko", S.locks?.ko ?? null, KNOCKOUT_KICKOFF)}
+      </div>
+      <button class="btn-primary btn-sm" onclick="saveLockOverrides()">Save lock settings</button>
+    </div>
+  </div>`;
+}
+
+function saveLockOverrides() {
+  const parse = v => v === "locked" ? true : v === "unlocked" ? false : null;
+  S.locks = {
+    group: parse(document.getElementById("lock-group").value),
+    ko:    parse(document.getElementById("lock-ko").value),
+  };
+  save();
+  toast("Picks lock settings saved!");
+  renderAdmin();
+}
+
 function renderAdminGroups() {
   let html = `<div class="card-title" style="margin-bottom:10px;margin-top:20px;">Group results</div>
   <div class="admin-groups-grid">`;
