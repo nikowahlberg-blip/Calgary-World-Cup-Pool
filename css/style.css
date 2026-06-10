@@ -374,8 +374,13 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 .lb-picks-preview { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
 .lb-scores { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
-.lb-pts-main { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--phosphor); line-height: 1; }
-.lb-pts-main.zero { color: var(--text3); }
+.lb-pts-main {
+  font-family: var(--font-display); font-size: 30px; font-weight: 800;
+  color: var(--phosphor); line-height: 1;
+  text-shadow: 0 0 10px rgba(255,215,0,0.35);
+  font-variant-numeric: tabular-nums;
+}
+.lb-pts-main.zero { color: var(--text3); text-shadow: none; }
 .lb-pts-max { font-size: 11px; color: var(--text3); text-align: right; }
 .lb-pts-max .alive { color: var(--sky); }
 .lb-pts-max .busted { color: var(--crimson); }
