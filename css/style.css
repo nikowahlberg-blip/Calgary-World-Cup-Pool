@@ -487,7 +487,6 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 .ps-row.ps-wrong   { background: var(--crimson-dim); color: var(--crimson); opacity: 0.75; }
 .ps-row.ps-pending { background: var(--pitch3); color: var(--text2); }
 .ps-pos { font-weight: 700; width: 16px; flex-shrink: 0; }
-.ps-flag { flex-shrink: 0; }
 .ps-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ps-icon { flex-shrink: 0; font-size: 12px; }
 
