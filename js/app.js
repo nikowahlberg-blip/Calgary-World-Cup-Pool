@@ -110,6 +110,7 @@ let _currentPage = "leaderboard";
 function showPage(name) {
   if (_currentPage === "live"        && name !== "live")        stopLiveRefresh();
   if (_currentPage === "stats"       && name !== "stats")       stopStatsRefresh();
+  if (_currentPage === "schedule"    && name !== "schedule")    stopScheduleRefresh();
   if (_currentPage === "leaderboard" && name !== "leaderboard") stopCountdownTimer();
   _currentPage = name;
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
