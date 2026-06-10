@@ -623,7 +623,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   font-size: 10px; font-weight: 700; flex-shrink: 0;
 }
 .p1 { background: var(--amber-dim); color: var(--amber); }
-.p2 { background: #e2e8f0; color: #475569; }
+.p2 { background: rgba(255,255,255,0.12); color: var(--text2); }
 .p3 { background: var(--pitch3); color: var(--text3); }
 .p4 { background: var(--pitch3); color: var(--text3); }
 
