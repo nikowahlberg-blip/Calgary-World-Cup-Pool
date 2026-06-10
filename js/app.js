@@ -206,6 +206,25 @@ function renderLeaderboardPage() {
 
   el.innerHTML = html;
   startCountdownTimer();
+
+  if (hasResults) {
+    el.querySelectorAll(".lb-pts-main[data-count-target]").forEach(numEl => {
+      animateCountUp(numEl, parseInt(numEl.dataset.countTarget, 10));
+    });
+  }
+}
+
+// Animate a number counting up from 0 to target
+function animateCountUp(el, target, duration = 800) {
+  if (!target) { el.textContent = "0"; return; }
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
 // ── KICKOFF COUNTDOWN ─────────────────────────────────────────────
