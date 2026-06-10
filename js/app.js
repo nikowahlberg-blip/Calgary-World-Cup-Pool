@@ -470,18 +470,85 @@ function triggerConfetti() {
   setTimeout(() => container.remove(), 4500);
 }
 
+// ── CLOUD SYNC ────────────────────────────────────────────────────
+// Shared pool state lives in Cloudflare KV so picks/results sync across
+// devices. localStorage stays as an instant-load cache + offline fallback.
+let _cloudEmptyOnLoad = false;
+let _myIdxNum    = null;
+let _lastKnownPts = null;
+
+function maybeCelebrate() {
+  if (_myIdxNum === null || !S.players[_myIdxNum]) return;
+  const newPts = calcCurrentPts(S.players[_myIdxNum]);
+  if (_lastKnownPts !== null && newPts > _lastKnownPts) {
+    toast("🎉 You scored points!");
+    triggerConfetti();
+  }
+  _lastKnownPts = newPts;
+}
+
+async function loadCloudState() {
+  try {
+    const cloud = await apiGetPoolState();
+    if (!cloud || !Array.isArray(cloud.players)) return;
+    if (cloud.players.length > 0 || S.players.length === 0) {
+      S = { ...DEFAULT_STATE(), ...cloud };
+      if (!S.locks) S.locks = { group: null, ko: null };
+      save();
+    } else {
+      // Cloud is empty but this device already has local data — admin
+      // can push it up via the "Initialize cloud sync" button.
+      _cloudEmptyOnLoad = true;
+    }
+  } catch (e) { /* offline — keep local state */ }
+}
+
+async function refreshCloudState() {
+  try {
+    const cloud = await apiGetPoolState();
+    if (!cloud || !Array.isArray(cloud.players)) return;
+    if (JSON.stringify(cloud) === JSON.stringify(S)) return;
+    Object.assign(S, cloud);
+    if (!S.locks) S.locks = { group: null, ko: null };
+    save();
+    updatePhaseUI();
+    updateSyncInfo();
+    maybeCelebrate();
+    if (_currentPage !== "picks" && _currentPage !== "admin") rerenderAll();
+  } catch (e) { /* offline */ }
+}
+
+async function seedCloudFromLocal() {
+  const pw = localStorage.getItem("wc26adminpw") || "";
+  if (!pw) { toast("Set an admin password first."); return; }
+  try {
+    const cloud = await apiSeedPool(pw, S);
+    Object.assign(S, cloud);
+    if (!S.locks) S.locks = { group: null, ko: null };
+    save();
+    _cloudEmptyOnLoad = false;
+    toast("☁️ Cloud sync initialized!");
+    renderAdmin();
+    rerenderAll();
+  } catch (e) {
+    toast("❌ " + e.message);
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────────────────
-(function init() {
+(async function init() {
+  await loadCloudState();
+
   const myName = localStorage.getItem("wc26myname");
   const myIdx  = localStorage.getItem("wc26myidx");
   const valid  = myName && myIdx !== null && S.players[parseInt(myIdx)] && S.players[parseInt(myIdx)].name === myName;
 
-  let prevPts = null;
   if (valid) {
     document.getElementById("setup-screen").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     showPage("picks");
-    prevPts = calcCurrentPts(S.players[parseInt(myIdx)]);
+    _myIdxNum = parseInt(myIdx);
+    _lastKnownPts = calcCurrentPts(S.players[_myIdxNum]);
   } else {
     localStorage.removeItem("wc26myname");
     localStorage.removeItem("wc26myidx");
@@ -496,13 +563,9 @@ function triggerConfetti() {
   renderGroupsRef();
 
   syncAll(null).then(() => {
-    if (valid) {
-      const newPts = calcCurrentPts(S.players[parseInt(myIdx)]);
-      if (newPts > prevPts) {
-        toast("🎉 You scored points!");
-        triggerConfetti();
-      }
-    }
+    maybeCelebrate();
   }).catch(() => {});
+
   setInterval(updateSyncInfo, 60_000);
+  setInterval(refreshCloudState, 30_000);
 })();
