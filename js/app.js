@@ -463,8 +463,7 @@ function renderGroupsRef() {
         <span class="lt-pts">P</span>
       </div>
       ${rows.map(row => {
-        const team    = row.team;
-        const through = row.position <= 2 ? "lt-row--through" : "";
+        const team = row.team;
 
         let pickCls = "";
         if (hasActual) {
@@ -473,7 +472,7 @@ function renderGroupsRef() {
         }
 
         const gd = row.hasStats ? (row.goalDifference >= 0 ? `+${row.goalDifference}` : String(row.goalDifference)) : "–";
-        return `<div class="lt-row ${through} ${pickCls}">
+        return `<div class="lt-row ${pickCls}">
           <span class="lt-team-col">
             <span class="lt-pos">${row.position}</span>
             <span class="lt-flag">${flag(team)}</span>
