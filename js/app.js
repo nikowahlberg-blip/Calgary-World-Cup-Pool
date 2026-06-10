@@ -202,6 +202,46 @@ function renderLeaderboardPage() {
   </div>`;
 
   el.innerHTML = html;
+  startCountdownTimer();
+}
+
+// ── KICKOFF COUNTDOWN ─────────────────────────────────────────────
+let _countdownTimer = null;
+function stopCountdownTimer() {
+  clearInterval(_countdownTimer);
+  _countdownTimer = null;
+}
+
+function startCountdownTimer() {
+  stopCountdownTimer();
+  renderCountdownTick();
+  _countdownTimer = setInterval(renderCountdownTick, 1000);
+}
+
+function renderCountdownTick() {
+  const el = document.getElementById("lb-countdown");
+  if (!el) { stopCountdownTimer(); return; }
+
+  const diff = GROUP_STAGE_KICKOFF - new Date();
+  if (diff <= 0) {
+    el.innerHTML = `<div class="countdown-started">⚽ The tournament has kicked off!</div>`;
+    stopCountdownTimer();
+    return;
+  }
+
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+
+  el.innerHTML = `
+    <div class="countdown-label">Kickoff in</div>
+    <div class="countdown-row">
+      <div class="countdown-unit"><span class="countdown-num">${days}</span><span class="countdown-unit-label">Days</span></div>
+      <div class="countdown-unit"><span class="countdown-num">${String(hours).padStart(2,"0")}</span><span class="countdown-unit-label">Hrs</span></div>
+      <div class="countdown-unit"><span class="countdown-num">${String(mins).padStart(2,"0")}</span><span class="countdown-unit-label">Min</span></div>
+      <div class="countdown-unit"><span class="countdown-num">${String(secs).padStart(2,"0")}</span><span class="countdown-unit-label">Sec</span></div>
+    </div>`;
 }
 
 function toggleLbDetail(idx) {
