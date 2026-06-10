@@ -563,7 +563,12 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   padding: 14px 16px;
   display: flex; align-items: center; gap: 12px;
 }
-.golden-boot-icon { font-size: 28px; flex-shrink: 0; }
+.golden-boot-icon {
+  width: 44px; height: 44px; font-size: 22px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--phosphor-dim); border: 1px solid var(--phosphor);
+}
 .golden-boot-content { flex: 1; }
 .golden-boot-content label { margin-bottom: 6px; }
 .golden-boot-content .picks-pts { font-size: 12px; color: var(--amber); margin-bottom: 6px; }
