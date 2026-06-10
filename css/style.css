@@ -846,6 +846,50 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
 .score-vs { font-size: 13px; color: var(--text3); font-weight: 500; }
 .match-ht { font-size: 11px; color: var(--text3); text-align: center; margin-top: 6px; }
 
+/* ── SCHEDULE PAGE ────────────────────────────────────────────── */
+.schedule-list { padding: 4px 16px 24px; }
+.schedule-date-header {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.07em;
+  margin: 16px 0 8px;
+}
+.schedule-date-header:first-child { margin-top: 12px; }
+.schedule-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--pitch2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 6px;
+}
+.schedule-row--live { border-color: var(--crimson); }
+.schedule-time {
+  width: 52px; flex-shrink: 0;
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-align: center;
+}
+.schedule-teams { flex: 1; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.schedule-team {
+  display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0;
+}
+.schedule-team--away { flex-direction: row-reverse; }
+.schedule-team .match-name {
+  font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.schedule-score {
+  display: flex; align-items: center; gap: 3px;
+  flex-shrink: 0; min-width: 48px; justify-content: center;
+}
+.schedule-score .score-num { font-size: 18px; }
+.schedule-score .score-sep { font-size: 14px; }
+.schedule-score .score-vs  { font-size: 11px; }
+.schedule-stage {
+  flex-shrink: 0; font-size: 10px; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  width: 64px; text-align: right;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
 /* Group standings live table */
 .live-standings-grid {
   display: grid;
