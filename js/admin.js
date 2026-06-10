@@ -206,7 +206,7 @@ function getKOPool(roundId) {
 
 // ── ADMIN ACTIONS ─────────────────────────────────────────────────
 
-function saveGroupResultsManual() {
+async function saveGroupResultsManual() {
   Object.keys(GROUPS).forEach(g => {
     if (!S.groupResults[g]) S.groupResults[g] = {};
     [1,2,3,4].forEach(pos => {
@@ -215,9 +215,10 @@ function saveGroupResultsManual() {
     });
   });
   save(); toast("Group results saved!");
+  await pushAdminPatch({ groupResults: S.groupResults });
 }
 
-function openBracketPhase() {
+async function openBracketPhase() {
   if (!confirm("Open the bracket phase? Players will be able to fill out their full bracket. Make sure all group results are entered first.")) return;
   // Collect 32 teams: top 2 from each group (24) + 8 best 3rd place
   const teams = [];
@@ -234,9 +235,10 @@ function openBracketPhase() {
   renderAdmin();
   updatePhaseUI();
   toast("✅ Bracket phase open — players can now fill out the bracket!");
+  await pushAdminPatch({ bracketTeams: S.bracketTeams, phase: S.phase });
 }
 
-function saveKOResults(roundId) {
+async function saveKOResults(roundId) {
   const round = KO_ROUNDS.find(r => r.id === roundId);
   if (!S.koResults[roundId]) S.koResults[roundId] = [];
   if (roundId === "champ") {
@@ -254,14 +256,19 @@ function saveKOResults(roundId) {
   }
   save();
   toast(`${round.label} results saved!`);
+  await pushAdminPatch({ koResults: S.koResults });
 }
 
-function saveGBResult() {
+async function saveGBResult() {
   const el = document.getElementById("gb-result");
-  if (el) { S.goldenBootResult = el.value.trim(); save(); toast("Golden boot result saved!"); }
+  if (!el) return;
+  S.goldenBootResult = el.value.trim();
+  save();
+  toast("Golden boot result saved!");
+  await pushAdminPatch({ goldenBootResult: S.goldenBootResult });
 }
 
-function addPlayer() {
+async function addPlayer() {
   const inp  = document.getElementById("new-player-name");
   const name = inp?.value.trim();
   if (!name) return;
@@ -271,16 +278,19 @@ function addPlayer() {
   renderPlayers();
   refreshPicksPlayerSelect();
   toast(`${name} added!`);
+  await pushAdminPatch({ players: S.players });
 }
 
-function removePlayer(i) {
+async function removePlayer(i) {
   if (!confirm("Remove " + S.players[i].name + "?")) return;
   S.players.splice(i, 1);
   save(); renderPlayers(); refreshPicksPlayerSelect();
+  await pushAdminPatch({ players: S.players });
 }
 
-function resetToGroupPhase() {
+async function resetToGroupPhase() {
   if (!confirm("Reset to group phase? Bracket results and bracket teams will be cleared. Player picks are kept.")) return;
   S.phase = "group"; S.koResults = {}; S.bracketTeams = [];
   save(); renderAdmin(); updatePhaseUI();
+  await pushAdminPatch({ phase: S.phase, koResults: S.koResults, bracketTeams: S.bracketTeams });
 }
