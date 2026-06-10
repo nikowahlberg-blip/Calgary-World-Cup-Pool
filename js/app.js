@@ -123,6 +123,7 @@ function showPage(name) {
   if (name === "groups")      renderGroupsRef();
   if (name === "live")        renderLivePage();
   if (name === "stats")       renderStatsPage();
+  if (name === "schedule")    renderSchedulePage();
   if (name === "admin")       renderAdmin();
 }
 
