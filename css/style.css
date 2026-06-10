@@ -208,8 +208,9 @@ a:hover { text-decoration: underline; }
   transition: color 0.15s, border-color 0.15s;
   white-space: nowrap;
 }
-.nav-btn .nav-icon { font-size: 18px; }
+.nav-btn .nav-icon { width: 20px; height: 20px; flex-shrink: 0; }
 .nav-btn.active { color: var(--phosphor); border-bottom-color: var(--phosphor); text-shadow: 0 0 12px rgba(255,215,0,0.4); }
+.nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px rgba(255,215,0,0.5)); }
 .nav-btn:hover:not(.active) { color: var(--text2); }
 
 /* ── MAIN ─────────────────────────────────────────────────────── */
