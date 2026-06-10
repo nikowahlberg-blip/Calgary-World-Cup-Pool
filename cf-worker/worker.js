@@ -130,17 +130,40 @@ async function handlePool(request, env, url, corsHeaders) {
     return json(publicState(state), 200, corsHeaders);
   }
 
-  // POST /pool/join — a new player adds themselves to the pool (no auth needed)
+  // POST /pool/join — a new player adds themselves to the pool with a password
   if (path === "join") {
     const state = await getState(env);
     const name = (body.name || "").trim().slice(0, 30);
+    const password = body.password || "";
     if (!name) return json({ error: "Name required" }, 400, corsHeaders);
+    if (!password || password.length < 4) return json({ error: "Password must be at least 4 characters" }, 400, corsHeaders);
     if (state.players.find(p => p.name.toLowerCase() === name.toLowerCase())) {
       return json({ error: "That name is already taken" }, 409, corsHeaders);
     }
-    state.players.push({ name, groupPicks: {}, bracketPicks: {}, goldenBoot: "" });
+    const pwHash = await sha256Hex(password);
+    state.players.push({ name, pwHash, groupPicks: {}, bracketPicks: {}, goldenBoot: "" });
     await putState(env, state);
     return json({ ...publicState(state), idx: state.players.length - 1 }, 200, corsHeaders);
+  }
+
+  // POST /pool/login — verify a player's password (or set one if this player
+  // pre-dates passwords / was added by the admin without one)
+  if (path === "login") {
+    const state = await getState(env);
+    const name = (body.name || "").trim();
+    const password = body.password || "";
+    const idx = state.players.findIndex(p => p.name === name);
+    if (idx === -1) return json({ error: "Player not found" }, 404, corsHeaders);
+    const player = state.players[idx];
+    if (!player.pwHash) {
+      if (!password || password.length < 4) return json({ error: "Password must be at least 4 characters" }, 400, corsHeaders);
+      player.pwHash = await sha256Hex(password);
+      await putState(env, state);
+      return json({ idx }, 200, corsHeaders);
+    }
+    const hash = await sha256Hex(password);
+    if (hash !== player.pwHash) return json({ error: "Incorrect password" }, 401, corsHeaders);
+    return json({ idx }, 200, corsHeaders);
   }
 
   // POST /pool/admin/checkpw — validate admin password without writing
