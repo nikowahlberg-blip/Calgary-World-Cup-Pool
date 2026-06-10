@@ -614,7 +614,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   border-bottom: 1px solid var(--line);
 }
 .bracket-team:last-child { border-bottom: none; }
-.bracket-team .flag { font-size: 18px; flex-shrink: 0; }
+.bracket-team .flag { width: 28px; height: 28px; font-size: 17px; }
 .bracket-team .team-name { flex: 1; }
 .bracket-team .pick-status { font-size: 18px; flex-shrink: 0; margin-left: auto; }
 
