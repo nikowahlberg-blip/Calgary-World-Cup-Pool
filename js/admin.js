@@ -1,5 +1,19 @@
 // ── ADMIN MODULE ─────────────────────────────────────────────────
 
+// Pushes a partial state update to the shared cloud pool and merges
+// the server's response back into S so this and other devices stay in sync.
+async function pushAdminPatch(patch) {
+  const pw = localStorage.getItem("wc26adminpw") || "";
+  try {
+    const cloud = await apiSaveAdminPatch(pw, patch);
+    Object.assign(S, cloud);
+    if (!S.locks) S.locks = { group: null, ko: null };
+    save();
+  } catch (e) {
+    toast("⚠️ Saved on this device — cloud sync failed: " + e.message);
+  }
+}
+
 function renderAdmin() {
   const el = document.getElementById("admin-content");
   if (!el) return;
@@ -9,8 +23,16 @@ function renderAdmin() {
     : "Never";
 
   let html = `<div class="admin-section">
-    <div class="admin-section-title">Admin</div>
+    <div class="admin-section-title">Admin</div>`;
 
+  if (_cloudEmptyOnLoad) {
+    html += `<div class="info amber">
+      ☁️ <strong>Cloud sync not set up yet.</strong> This device has pool data that hasn't been pushed to the cloud, so other devices won't see it.
+      <div style="margin-top:8px;"><button class="btn-primary btn-sm" onclick="seedCloudFromLocal()">Initialize cloud sync with this device's data</button></div>
+    </div>`;
+  }
+
+  html += `
     <!-- Sync card -->
     <div class="sync-card">
       <div class="sync-card-info">
