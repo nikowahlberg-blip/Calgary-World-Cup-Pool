@@ -59,6 +59,10 @@ const KO_ROUNDS = [
   { id:"champ", label:"Champion",       apiStage:null,              size:1,  pts:8 },
 ];
 
+// ── KEY TOURNAMENT DATES ────────────────────────────────────────────
+const GROUP_STAGE_KICKOFF = new Date("2026-06-11T17:00:00-04:00"); // first group stage match
+const KNOCKOUT_KICKOFF    = new Date("2026-06-29T12:00:00-04:00"); // first Round of 32 match
+
 // ── SCORING ───────────────────────────────────────────────────────
 const GROUP_PTS     = { 1:2, 2:2, 3:2, 4:2 };
 const GOLDEN_PTS    = 4;
