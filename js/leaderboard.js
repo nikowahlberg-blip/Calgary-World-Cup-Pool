@@ -151,8 +151,9 @@ function calcSurvival(p) {
 // Rank all players for the leaderboard
 function getRankedPlayers() {
   return S.players
-    .map(p => ({
+    .map((p, idx) => ({
       ...p,
+      idx,
       pts:         calcCurrentPts(p),
       maxPossible: calcMaxPossible(p),
       breakdown:   calcBreakdown(p),
