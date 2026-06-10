@@ -82,9 +82,12 @@ a:hover { text-decoration: underline; }
 .setup-logo { font-size: 40px; margin-bottom: 12px; }
 .setup-box h1 {
   font-family: var(--font-display);
-  font-size: 36px; font-weight: 800;
+  font-size: 38px; font-weight: 800;
   letter-spacing: 0.02em;
   margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 0%, var(--phosphor) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
 }
 .setup-box > p { font-size: 14px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
 .setup-section { margin-bottom: 20px; }
