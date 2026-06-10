@@ -49,28 +49,52 @@ function closeModal() {
 }
 
 // ── SETUP ─────────────────────────────────────────────────────────
-function joinPool() {
-  const nameEl = document.getElementById("setup-player-name");
-  const name   = nameEl ? nameEl.value.trim() : "";
-  if (!name) { if (nameEl) nameEl.focus(); return; }
+function renderSetupPlayerList() {
+  const list  = document.getElementById("setup-player-list");
+  const empty = document.getElementById("setup-no-players");
+  if (!list || !empty) return;
 
-  let idx = S.players.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
-  if (idx === -1) {
-    S.players.push({ name, groupPicks: {}, bracketPicks: {}, goldenBoot: "" });
-    idx = S.players.length - 1;
-    save();
+  if (!S.players.length) {
+    list.innerHTML = "";
+    empty.classList.remove("hidden");
+    return;
   }
-  localStorage.setItem("wc26myname", name);
+  empty.classList.add("hidden");
+  list.innerHTML = S.players.map((p, i) =>
+    `<button class="setup-player-btn" onclick="claimPlayer(${i})">
+      <span class="setup-player-avatar">${p.name.slice(0,2).toUpperCase()}</span>
+      <span class="setup-player-name">${p.name}</span>
+    </button>`
+  ).join("");
+}
+
+function claimPlayer(idx) {
+  const p = S.players[idx];
+  if (!p) return;
+
+  localStorage.setItem("wc26myname", p.name);
   localStorage.setItem("wc26myidx",  String(idx));
 
   document.getElementById("setup-screen").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   showPage("picks");
-  toast("Welcome, " + name + "! Rank the groups below.");
+  toast("Welcome, " + p.name + "!");
+}
+
+function switchUser() {
+  localStorage.removeItem("wc26myname");
+  localStorage.removeItem("wc26myidx");
+  location.reload();
 }
 
 function toggleAdminSetup() {
-  document.getElementById("admin-setup-fields").classList.toggle("hidden");
+  const fields = document.getElementById("admin-setup-fields");
+  fields.classList.toggle("hidden");
+  if (!fields.classList.contains("hidden")) {
+    const hasPw = !!localStorage.getItem("wc26adminpw");
+    document.getElementById("admin-setup-pw-section").classList.toggle("hidden", hasPw);
+    document.getElementById("admin-setup-save-btn").classList.toggle("hidden", hasPw);
+  }
 }
 
 function saveAdminSetup() {
