@@ -122,6 +122,11 @@ async function apiGetLiveStandings() {
   return apiFetch(`/competitions/${WC}/standings`);
 }
 
+// Full tournament schedule (group stage + knockouts), for the Schedule page
+async function apiGetSchedule() {
+  return apiFetch(`/competitions/${WC}/matches?dateFrom=2026-06-11&dateTo=2026-07-19`);
+}
+
 function updateSyncInfo() {
   const el = document.getElementById("sync-info");
   if (!el) return;
