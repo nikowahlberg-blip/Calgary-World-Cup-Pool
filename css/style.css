@@ -467,7 +467,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   background: var(--pitch3); color: var(--text2);
   border: 1px solid var(--line);
 }
-.ps-pill-correct { background: var(--phosphor-dim); color: var(--phosphor); border-color: var(--phosphor); }
+.ps-pill-correct { background: var(--emerald-dim); color: var(--emerald); border-color: var(--emerald); }
 .ps-pill-wrong   { background: var(--crimson-dim); color: var(--crimson); border-color: var(--crimson); opacity: 0.75; }
 .ps-pill-pending { background: var(--pitch3); color: var(--text2); }
 
