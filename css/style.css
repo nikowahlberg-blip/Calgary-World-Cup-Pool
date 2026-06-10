@@ -66,8 +66,8 @@ a:hover { text-decoration: underline; }
   position: fixed; inset: 0;
   background-color: #1b0a12;
   background-image:
-    repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 2px, transparent 2px, transparent 36px),
-    linear-gradient(165deg, #7a0c1e 0%, #4a0e1c 30%, #240a18 58%, #120810 100%);
+    radial-gradient(ellipse 900px 600px at 50% -8%, rgba(255,215,0,0.07), transparent 60%),
+    linear-gradient(165deg, #6e0c1e 0%, #45101e 35%, #220a16 68%, #120810 100%);
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
   z-index: 100;
