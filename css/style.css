@@ -10,10 +10,12 @@
   --line:     rgba(255,255,255,0.10);
   --line2:    rgba(255,255,255,0.20);
 
-  --phosphor: #ffd700;       /* gold — correct picks, wins, highlights */
+  --phosphor: #ffd700;       /* gold — branding, points, "you" highlights */
   --phosphor-dim: rgba(255,215,0,0.15);
   --amber:    #ff9f1c;       /* warm amber — warnings, rank #1 */
   --amber-dim: rgba(255,159,28,0.16);
+  --emerald:  #34d399;       /* emerald — correct picks, success */
+  --emerald-dim: rgba(52,211,153,0.16);
   --crimson:  #ff4d5e;       /* eliminated / bust / wrong */
   --crimson-dim: rgba(255,77,94,0.18);
   --sky:      #4cc9f0;       /* bright blue — info, links */
@@ -29,6 +31,9 @@
   --radius:    10px;
   --radius-sm: 6px;
   --radius-lg: 14px;
+
+  /* shared depth for elevated surfaces */
+  --shadow-card: 0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
 
   /* safe area for mobile notch */
   --safe-top:    env(safe-area-inset-top, 0px);
