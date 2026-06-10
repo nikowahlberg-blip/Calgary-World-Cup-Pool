@@ -253,7 +253,7 @@ label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: 
   border-left: 3px solid var(--line2);
   margin-bottom: 14px;
 }
-.info.green  { background: var(--phosphor-dim); color: var(--phosphor); border-left-color: var(--phosphor); }
+.info.green  { background: var(--emerald-dim); color: var(--emerald); border-left-color: var(--emerald); }
 .info.amber  { background: var(--amber-dim);    color: var(--amber);    border-left-color: var(--amber); }
 .info.red    { background: var(--crimson-dim);  color: var(--crimson);  border-left-color: var(--crimson); }
 .info.blue   { background: var(--sky-dim);      color: var(--sky);      border-left-color: var(--sky); }
