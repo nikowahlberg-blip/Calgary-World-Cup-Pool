@@ -121,7 +121,6 @@ function showPage(name) {
   if (name === "picks")       { refreshPicksPlayerSelect(); renderPicksForPlayer(); }
   if (name === "bracket")     renderBracketPage();
   if (name === "groups")      renderGroupsRef();
-  if (name === "live")        renderLivePage();
   if (name === "stats")       renderStatsPage();
   if (name === "schedule")    renderSchedulePage();
   if (name === "admin")       renderAdmin();
