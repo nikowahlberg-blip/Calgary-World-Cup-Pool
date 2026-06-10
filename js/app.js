@@ -172,7 +172,7 @@ function renderLeaderboardPage() {
     const stillAlive = p.maxPossible >= ranked[0].pts;
     const isMe       = myIdx !== null && String(p.idx) === myIdx;
 
-    html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""} ${isMe ? "lb-row--me" : ""}" onclick="toggleLbDetail(${p.idx})">
+    html += `<div class="lb-row ${i < 3 ? "lb-row--top3" : ""} ${isMe ? "lb-row--me" : ""}" style="animation-delay:${(i * 0.05).toFixed(2)}s" onclick="toggleLbDetail(${p.idx})">
       <div class="lb-rank">${medals[i] || (i + 1)}</div>
       <div class="lb-avatar">${p.name.slice(0,2).toUpperCase()}</div>
       <div class="lb-info">
@@ -183,7 +183,7 @@ function renderLeaderboardPage() {
         ${hasResults && S.phase === "bracket" ? renderSurvivalPips(p.survival) : ""}
       </div>
       <div class="lb-scores">
-        <div class="lb-pts-main ${p.pts === 0 && hasResults ? "zero" : ""}">${hasResults ? p.pts : "—"}</div>
+        <div class="lb-pts-main ${p.pts === 0 && hasResults ? "zero" : ""}" data-count-target="${p.pts}">${hasResults ? "0" : "—"}</div>
         ${hasResults ? `<div class="lb-pts-max">
           max <span class="${stillAlive ? "alive" : "busted"}">${p.maxPossible}</span>
           ${i > 0 && gap > 0 ? `<br>–${gap} behind` : ""}
