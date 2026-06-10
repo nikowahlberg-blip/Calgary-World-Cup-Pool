@@ -28,19 +28,32 @@ function adminLoginFromSetup() {
   document.getElementById("admin-modal").classList.remove("hidden");
   document.getElementById("admin-pw-input").focus();
 }
-function checkAdminPw() {
-  const pw     = document.getElementById("admin-pw-input").value;
-  const stored = localStorage.getItem("wc26adminpw") || "";
-  if (pw === stored) {
+async function checkAdminPw() {
+  const pw = document.getElementById("admin-pw-input").value;
+
+  const unlock = () => {
+    localStorage.setItem("wc26adminpw", pw);
     _adminUnlocked = true;
     closeModal();
     document.getElementById("setup-screen").classList.add("hidden");
     document.getElementById("app").classList.remove("hidden");
     if (_pendingAdminPage) { showPage(_pendingAdminPage); _pendingAdminPage = null; }
-  } else {
+  };
+  const reject = () => {
     document.getElementById("admin-pw-error").classList.remove("hidden");
     document.getElementById("admin-pw-input").value = "";
     document.getElementById("admin-pw-input").focus();
+  };
+
+  try {
+    const res = await apiCheckAdminPw(pw);
+    if (res.valid || res.needsSetup) unlock();
+    else reject();
+  } catch (e) {
+    // offline — fall back to comparing against this device's stored password
+    const stored = localStorage.getItem("wc26adminpw") || "";
+    if (pw && pw === stored) unlock();
+    else reject();
   }
 }
 function closeModal() {
