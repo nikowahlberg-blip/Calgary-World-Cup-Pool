@@ -15,38 +15,48 @@ function renderPicksForPlayer() {
   const myIdx   = localStorage.getItem("wc26myidx");
   const isOwner = myIdx !== null && parseInt(myIdx) === idx;
 
+  const locked  = S.phase === "group" ? isGroupPicksLocked() : isKOPicksLocked();
+  const canEdit = isOwner && !locked;
+
   let html = "";
 
   if (!isOwner) {
     html += `<div style="padding:0 16px 8px;">
       <div class="info">👀 <strong>Viewing ${p.name}'s picks.</strong> You can only edit your own picks.</div>
     </div>`;
+  } else if (locked) {
+    const msg = S.phase === "group"
+      ? "🔒 <strong>Picks locked</strong> — the tournament has started. Group picks can no longer be changed."
+      : "🔒 <strong>Picks locked</strong> — the knockout stage has begun. Bracket picks can no longer be changed.";
+    html += `<div style="padding:0 16px 8px;">
+      <div class="info amber">${msg}</div>
+    </div>`;
   }
 
   if (S.phase === "group") {
-    if (isOwner) {
+    if (canEdit) {
       html += `<div style="padding:0 16px 8px;">
         <div class="info amber">📋 <strong>Phase 1 — Group stage.</strong> Predict how each group will finish. Bracket picks open after the group stage ends.</div>
       </div>`;
     }
-    html += renderGoldenBootPick(idx, p, isOwner);
-    html += renderGroupPicksForms(idx, p, isOwner);
+    html += renderGoldenBootPick(idx, p, canEdit);
+    html += renderGroupPicksForms(idx, p, canEdit);
   } else {
-    if (isOwner) {
+    if (canEdit) {
       html += `<div style="padding:0 16px 8px;">
         <div class="info green">✅ <strong>The bracket is set.</strong> Pick your teams for every knockout round — from Round of 32 all the way to the champion. Each round's options update based on your previous picks.</div>
       </div>`;
     }
-    html += renderGoldenBootPick(idx, p, isOwner);
-    html += renderBracketPicksForms(idx, p, isOwner);
+    html += renderGoldenBootPick(idx, p, canEdit);
+    html += renderBracketPicksForms(idx, p, canEdit);
   }
 
-  if (isOwner) {
+  if (canEdit) {
     html += `<div class="picks-save-bar"><button class="btn-primary" onclick="saveAllPicks(${idx})">Save all picks</button></div>`;
   }
   el.innerHTML = html;
 
-  if (S.phase === "group" && isOwner) initSortable();
+  if (S.phase === "group" && canEdit) initSortable();
 }
 
 function renderGoldenBootPick(idx, p, isOwner = true) {
