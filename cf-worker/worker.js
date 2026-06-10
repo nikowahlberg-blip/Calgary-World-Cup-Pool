@@ -130,6 +130,19 @@ async function handlePool(request, env, url, corsHeaders) {
     return json(publicState(state), 200, corsHeaders);
   }
 
+  // POST /pool/join — a new player adds themselves to the pool (no auth needed)
+  if (path === "join") {
+    const state = await getState(env);
+    const name = (body.name || "").trim().slice(0, 30);
+    if (!name) return json({ error: "Name required" }, 400, corsHeaders);
+    if (state.players.find(p => p.name.toLowerCase() === name.toLowerCase())) {
+      return json({ error: "That name is already taken" }, 409, corsHeaders);
+    }
+    state.players.push({ name, groupPicks: {}, bracketPicks: {}, goldenBoot: "" });
+    await putState(env, state);
+    return json({ ...publicState(state), idx: state.players.length - 1 }, 200, corsHeaders);
+  }
+
   // POST /pool/admin/checkpw — validate admin password without writing
   if (path === "admin/checkpw") {
     const state = await getState(env);
