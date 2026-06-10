@@ -14,6 +14,45 @@ async function apiFetch(path) {
   return res.json();
 }
 
+async function apiPost(path, body) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `API ${res.status}`);
+  return data;
+}
+
+// ── SHARED POOL STATE (Cloudflare KV) ──────────────────────────────
+// Lets picks/results sync across devices instead of living only in
+// each browser's localStorage.
+
+async function apiGetPoolState() {
+  return apiFetch(`/pool`);
+}
+
+async function apiSyncPoolResults(payload) {
+  return apiPost(`/pool/sync`, payload);
+}
+
+async function apiSavePlayerPicks(idx, name, picks) {
+  return apiPost(`/pool/picks`, { idx, name, ...picks });
+}
+
+async function apiCheckAdminPw(adminPw) {
+  return apiPost(`/pool/admin/checkpw`, { adminPw });
+}
+
+async function apiSaveAdminPatch(adminPw, patch) {
+  return apiPost(`/pool/admin`, { adminPw, patch });
+}
+
+async function apiSeedPool(adminPw, state) {
+  return apiPost(`/pool/admin/seed`, { adminPw, state });
+}
+
 // Pull group standings and write into S.groupResults / S.groupStandings
 async function apiSyncStandings() {
   const data = await apiFetch(`/competitions/${WC}/standings`);
@@ -91,6 +130,17 @@ async function syncAll(btnEl) {
     await apiSyncStandings();
     if (S.phase === "bracket") await apiSyncMatches();
     S.lastSync = new Date().toISOString();
+    try {
+      const cloud = await apiSyncPoolResults({
+        groupResults:   S.groupResults,
+        groupStandings: S.groupStandings,
+        koResults:      S.koResults,
+        bracketTeams:   S.bracketTeams,
+        lastSync:       S.lastSync,
+      });
+      Object.assign(S, cloud);
+      if (!S.locks) S.locks = { group: null, ko: null };
+    } catch (e) { /* offline — keep local results */ }
     save();
     updateSyncInfo();
     toast("✅ Results synced!");
