@@ -64,22 +64,26 @@ function closeModal() {
 
 // ── SETUP ─────────────────────────────────────────────────────────
 function renderSetupPlayerList() {
-  const list  = document.getElementById("setup-player-list");
-  const empty = document.getElementById("setup-no-players");
-  if (!list || !empty) return;
+  const sel     = document.getElementById("setup-player-select");
+  const section = document.getElementById("setup-player-section");
+  const empty   = document.getElementById("setup-no-players");
+  if (!sel || !section || !empty) return;
 
   if (!S.players.length) {
-    list.innerHTML = "";
+    section.classList.add("hidden");
     empty.classList.remove("hidden");
     return;
   }
+  section.classList.remove("hidden");
   empty.classList.add("hidden");
-  list.innerHTML = S.players.map((p, i) =>
-    `<button class="setup-player-btn" onclick="claimPlayer(${i})">
-      <span class="setup-player-avatar">${p.name.slice(0,2).toUpperCase()}</span>
-      <span class="setup-player-name">${p.name}</span>
-    </button>`
-  ).join("");
+  sel.innerHTML = `<option value="">— select your name —</option>` +
+    S.players.map((p, i) => `<option value="${i}">${p.name}</option>`).join("");
+}
+
+function onSetupPlayerSelect(sel) {
+  const idx = parseInt(sel.value);
+  if (isNaN(idx)) return;
+  Promise.resolve(claimPlayer(idx)).finally(() => { sel.value = ""; });
 }
 
 function enterAsPlayer(idx, name) {
