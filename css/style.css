@@ -258,7 +258,7 @@ input[type=text], input[type=password], select, textarea {
   background: var(--pitch3);
   border: 1px solid var(--line2);
   border-radius: var(--radius-sm);
-  color: var(--text); font-family: var(--font-body); font-size: 14px;
+  color: var(--text); font-family: var(--font-body); font-size: 16px;
   outline: none;
   transition: border-color 0.15s;
   -webkit-appearance: none;
