@@ -18,9 +18,14 @@
   <div class="setup-box">
     <div class="setup-logo">⚽</div>
     <h1>WC <span class="year-badge">26</span> POOL</h1>
-    <p>Calgary's World Cup prediction pool. Tap your name to get started!</p>
+    <p>Calgary's World Cup prediction pool. Select your name to continue.</p>
 
-    <div id="setup-player-list" class="setup-player-list"></div>
+    <div class="setup-section" id="setup-player-section">
+      <label class="setup-label">I'm already in the pool</label>
+      <select id="setup-player-select" onchange="onSetupPlayerSelect(this)">
+        <option value="">— select your name —</option>
+      </select>
+    </div>
     <div id="setup-no-players" class="info hidden">No players yet — be the first to join!</div>
 
     <div class="setup-section">
